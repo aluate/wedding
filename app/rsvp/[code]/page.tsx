@@ -1,15 +1,17 @@
 'use client'
 
 import { useState } from 'react'
+import { useParams } from 'next/navigation'
 import weddingConfig from '@/config/wedding_config.json'
 import Link from 'next/link'
 
-export default function RSVPPage({ params }: { params: { code: string } }) {
+export default function RSVPPage() {
+  const params = useParams()
   const { rsvp } = weddingConfig
   const [submitted, setSubmitted] = useState(false)
 
   // In production, this would look up the household by code
-  const householdCode = params.code
+  const householdCode = params.code as string
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
