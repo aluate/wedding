@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #81D8D0;
+  --accent: #000000;
+  --background: #F7F7F7;
+}
+
+body {
+  color: var(--accent);
+  background: var(--background);
+}
+
+.font-heading {
+  font-family: var(--font-heading), serif;
+}
+
+.font-body {
+  font-family: var(--font-body), sans-serif;
+}
+
