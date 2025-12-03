@@ -78,11 +78,11 @@ export default function RSVPPage() {
                 </select>
               </div>
 
-              {rsvp.guestFields.dietaryOptions && (
+              {rsvp.dietaryOptions && rsvp.dietaryOptions.length > 0 && (
                 <div>
                   <label className="block mb-2 font-semibold">Dietary Restrictions</label>
                   <div className="space-y-2">
-                    {rsvp.dietaryOptions.map((option) => (
+                    {rsvp.dietaryOptions.map((option: string) => (
                       <label key={option} className="flex items-center">
                         <input type="checkbox" name="dietary" value={option} className="mr-2" />
                         {option}
