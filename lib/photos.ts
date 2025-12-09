@@ -37,8 +37,6 @@ export function getAllWeddingPhotos(): Photo[] {
     { src: "/photos/wedding/gallery/photo-11.jpg", alt: "Brit & Karl wedding photo", category: "gallery", featured: false },
     { src: "/photos/wedding/gallery/photo-12.jpg", alt: "Brit & Karl wedding photo", category: "gallery", featured: false },
     { src: "/photos/wedding/gallery/photo-13.jpg", alt: "Brit & Karl wedding photo", category: "gallery", featured: false },
-    { src: "/photos/wedding/gallery/photo-14.jpg", alt: "Brit & Karl wedding photo", category: "gallery", featured: false },
-    { src: "/photos/wedding/gallery/photo-15.jpg", alt: "Brit & Karl wedding photo", category: "gallery", featured: false },
   ]
   
   return photoList
