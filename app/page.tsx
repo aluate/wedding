@@ -1,8 +1,12 @@
 import weddingConfig from '@/config/wedding_config.json'
 import Link from 'next/link'
+import { getHeroPhotos } from '@/lib/photos'
+import PhotoSlideshow from '@/components/PhotoSlideshow'
+import { formatAmericanDate, format12HourTime } from '@/lib/dateUtils'
 
 export default function Home() {
-  const { couple, wedding, venue, branding } = weddingConfig
+  const { couple, wedding, venue, branding, rsvp } = weddingConfig
+  const heroPhotos = getHeroPhotos()
 
   return (
     <main className="min-h-screen">
@@ -13,7 +17,7 @@ export default function Home() {
             {couple.displayNames}
           </h1>
           <p className="text-2xl md:text-3xl mb-8 text-accent/80">
-            {wedding.date}
+            {formatAmericanDate(wedding.date)}
           </p>
           <p className="text-xl md:text-2xl mb-12 text-accent/70">
             {venue.name}
@@ -35,13 +39,30 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Photo Slideshow Section */}
+      {heroPhotos.length > 0 && (
+        <section className="py-16 px-4 bg-background">
+          <div className="max-w-5xl mx-auto">
+            <PhotoSlideshow photos={heroPhotos} autoPlay={true} intervalMs={4000} />
+            <div className="text-center mt-8">
+              <Link 
+                href="/gallery" 
+                className="text-primary hover:text-primary/80 font-semibold transition"
+              >
+                See more photos →
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Quick Info Section */}
       <section className="py-20 px-4 max-w-4xl mx-auto">
         <div className="grid md:grid-cols-3 gap-8 text-center">
           <div>
             <h3 className="font-heading text-2xl mb-2">When</h3>
-            <p className="text-accent/70">June 20, 2026</p>
-            <p className="text-accent/70">4:30 PM</p>
+            <p className="text-accent/70">{formatAmericanDate(wedding.date)}</p>
+            <p className="text-accent/70">{format12HourTime('16:30')}</p>
           </div>
           <div>
             <h3 className="font-heading text-2xl mb-2">Where</h3>
@@ -50,7 +71,7 @@ export default function Home() {
           </div>
           <div>
             <h3 className="font-heading text-2xl mb-2">RSVP By</h3>
-            <p className="text-accent/70">May 20, 2026</p>
+            <p className="text-accent/70">{formatAmericanDate(rsvp.deadlineDate)}</p>
           </div>
         </div>
       </section>
@@ -65,14 +86,12 @@ export default function Home() {
             <Link href="/travel" className="text-accent hover:text-primary transition">
               Travel & Stay
             </Link>
+            <Link href="/gallery" className="text-accent hover:text-primary transition">
+              Gallery
+            </Link>
             <Link href="/rsvp" className="text-accent hover:text-primary transition">
               RSVP
             </Link>
-            {weddingConfig.fun.game.enabled && (
-              <Link href="/game" className="text-accent hover:text-primary transition">
-                {weddingConfig.fun.game.name}
-              </Link>
-            )}
           </nav>
         </div>
       </section>

@@ -1,7 +1,7 @@
 {
   "site": {
     "slug": "solstice-of-26",
-    "title": "Karl & Brit — Solstice of '26",
+    "title": "Brit & Karl — Solstice of '26",
     "tagline": "A Solstice Weekend at Coeur d'Alene Casino",
     "primaryDomain": "https://britandkarl.com",
     "supportEmail": "hello@britandkarl.com"
@@ -9,7 +9,7 @@
   "couple": {
     "brideFirstName": "Brit",
     "groomFirstName": "Karl",
-    "displayNames": "Karl & Brit",
+    "displayNames": "Brit & Karl",
     "hashtag": "#SolsticeOf26"
   },
   "wedding": {
@@ -123,7 +123,7 @@
         "isPrimaryBlock": true,
         "bookingUrl": "https://www.cdacasino.com/stay",
         "blockCode": "TO-BE-DETERMINED",
-        "blockName": "Karl & Brit Wedding Block",
+        "blockName": "Brit & Karl Wedding Block",
         "checkInDate": "2026-06-19",
         "checkOutDate": "2026-06-21",
         "cutoffDate": "2026-05-20",

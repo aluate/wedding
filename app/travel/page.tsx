@@ -1,8 +1,12 @@
 import weddingConfig from '@/config/wedding_config.json'
 import Link from 'next/link'
+import Image from 'next/image'
+import { getAllWeddingPhotos } from '@/lib/photos'
 
 export default function Travel() {
   const { travel, lodging, venue } = weddingConfig
+  const photos = getAllWeddingPhotos()
+  const venuePhoto = photos[0] // Use first photo as venue photo
 
   return (
     <main className="min-h-screen py-12 px-4">
@@ -12,6 +16,19 @@ export default function Travel() {
         </Link>
         
         <h1 className="font-heading text-5xl mb-8">Travel & Stay</h1>
+        
+        {/* Venue Photo */}
+        {venuePhoto && (
+          <div className="mb-12 relative w-full h-64 md:h-96 rounded-lg overflow-hidden shadow-lg">
+            <Image
+              src={venuePhoto.src}
+              alt={venuePhoto.alt || `${venue.name} - ${venue.city}, ${venue.state}`}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 896px"
+            />
+          </div>
+        )}
         
         {/* Venue Info */}
         <section className="mb-12">

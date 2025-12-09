@@ -38,9 +38,10 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ## Pages
 
-- `/` - Home page
-- `/schedule` - Event schedule
-- `/travel` - Travel and lodging information
+- `/` - Home page (with photo slideshow)
+- `/schedule` - Event schedule (with photo strip)
+- `/travel` - Travel and lodging information (with venue photo)
+- `/gallery` - Photo gallery
 - `/rsvp/[code]` - RSVP form (requires household code)
 - `/game` - Solstice Runner game
 - `/admin` - Admin dashboard (overview, guests, kanban)
@@ -53,6 +54,37 @@ Edit `config/wedding_config.json` to customize:
 - Venue information
 - RSVP settings
 - Branding colors
+
+## Adding Photos
+
+### Quick Start
+1. **Drop images** into `/public/photos/wedding/gallery/`
+2. **Name them** `photo-01.jpg`, `photo-02.jpg`, etc. (or any name)
+3. **Update** `lib/photos.ts` to include your new photos in the array
+4. **Photos automatically appear** in:
+   - Home page slideshow (first 3-4 photos)
+   - Gallery page (all photos)
+   - Schedule page (photo strip)
+   - Travel page (first photo as venue image)
+
+### Photo Organization
+- **Gallery photos:** `/public/photos/wedding/gallery/` - All photos for the gallery page
+- **Hero photos:** First 3-4 photos are used in the home page slideshow
+- **Featured photos:** Mark photos with `featured: true` in `lib/photos.ts` to prioritize them
+
+### Photo Components
+- **`<PhotoGrid />`** - Responsive grid layout (used on gallery page)
+- **`<PhotoSlideshow />`** - Auto-playing slideshow with navigation (used on home page)
+- **`<PhotoStrip />`** - Horizontal scrolling strip (used on schedule page)
+
+### Customizing Photos
+Edit `lib/photos.ts` to:
+- Add/remove photos
+- Set alt text
+- Mark photos as featured
+- Categorize photos (for filtering)
+
+**Note:** For production, you can create a build script to auto-generate the photo list by scanning the folder.
 
 ## Deployment to Vercel
 

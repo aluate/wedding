@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useParams } from 'next/navigation'
 import weddingConfig from '@/config/wedding_config.json'
 import Link from 'next/link'
+import { formatAmericanDate } from '@/lib/dateUtils'
 
 export default function RSVPPage() {
   const params = useParams()
@@ -44,7 +45,7 @@ export default function RSVPPage() {
         
         <h1 className="font-heading text-5xl mb-8">RSVP</h1>
         <p className="text-accent/70 mb-8">
-          Please RSVP by {rsvp.deadlineDate}
+          Please RSVP by {formatAmericanDate(rsvp.deadlineDate)}
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-6">

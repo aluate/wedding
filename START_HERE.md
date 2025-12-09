@@ -121,5 +121,19 @@ See `OTTO_CAPABILITIES.md` for full details!
 
 ---
 
+## 🔗 **Otto Integration**
+
+When this doc says "Deploy with Otto" or "Let Otto handle deployment," it refers to:
+
+> **Otto's `infra_sre` skill**, the infrastructure/deployment skill of the single Otto agent defined in `apps/otto/`.
+
+This project does **not** define its own Otto.  
+
+It simply uses Otto as a deployer/automation tool.
+
+For more context on Otto's architecture, see `OTTO_CONTEXT.md` in the repo root.
+
+---
+
 **Ready?** Follow the 3 steps above and your site will be live! 🚀
 
