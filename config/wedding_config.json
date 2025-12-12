@@ -1,0 +1,301 @@
+{
+  "site": {
+    "slug": "solstice-of-26",
+    "title": "Brit & Karl — Solstice of '26",
+    "tagline": "A Solstice Weekend at Coeur d'Alene Casino",
+    "primaryDomain": "https://britandkarl.com",
+    "supportEmail": "hello@britandkarl.com"
+  },
+  "couple": {
+    "brideFirstName": "Brit",
+    "groomFirstName": "Karl",
+    "displayNames": "Brit & Karl",
+    "hashtag": "#SolsticeOf26"
+  },
+  "wedding": {
+    "date": "2026-06-20",
+    "timezone": "America/Los_Angeles",
+    "primaryVenueId": "cda-casino",
+    "events": [
+      {
+        "id": "doors-open",
+        "name": "Doors Open",
+        "type": "gathering",
+        "date": "2026-06-20",
+        "startTime": "14:00",
+        "endTime": "16:00",
+        "locationId": "cda-casino-main",
+        "showOnPublicTimeline": true,
+        "description": "Arrive, grab a drink, find your seat, and say hi before the ceremony."
+      },
+      {
+        "id": "ceremony",
+        "name": "Ceremony",
+        "type": "ceremony",
+        "date": "2026-06-20",
+        "startTime": "16:30",
+        "endTime": "17:00",
+        "locationId": "cda-casino-ceremony",
+        "showOnPublicTimeline": true,
+        "description": "Join us as we get married at the Coeur d'Alene Casino."
+      },
+      {
+        "id": "cocktail-hour",
+        "name": "Cocktail Hour",
+        "type": "reception",
+        "date": "2026-06-20",
+        "startTime": "17:00",
+        "endTime": "18:30",
+        "locationId": "cda-casino-cocktail",
+        "showOnPublicTimeline": true,
+        "description": "Cocktails, appetizers, and catching up while we finish photos."
+      },
+      {
+        "id": "dinner",
+        "name": "Dinner",
+        "type": "reception",
+        "date": "2026-06-20",
+        "startTime": "18:30",
+        "endTime": "20:00",
+        "locationId": "cda-casino-reception",
+        "showOnPublicTimeline": true,
+        "description": "Dinner is served. Please let us know your meal choice when you RSVP."
+      },
+      {
+        "id": "party",
+        "name": "Dancing & Party",
+        "type": "party",
+        "date": "2026-06-20",
+        "startTime": "20:00",
+        "endTime": "23:59",
+        "locationId": "cda-casino-reception",
+        "showOnPublicTimeline": true,
+        "description": "Dancing, drinks, casino runs, and bad decisions encouraged (within reason)."
+      }
+    ]
+  },
+  "venue": {
+    "id": "cda-casino",
+    "name": "Coeur d'Alene Casino Resort Hotel",
+    "addressLine1": "37914 South Nukwalqw",
+    "city": "Worley",
+    "state": "ID",
+    "postalCode": "83876",
+    "country": "USA",
+    "googleMapsUrl": "https://maps.google.com/?q=Coeur+d'Alene+Casino+Resort+Hotel",
+    "phone": "1-800-523-2464",
+    "website": "https://www.cdacasino.com",
+    "notes": "Full-service resort with hotel, casino, multiple restaurants, and event spaces.",
+    "locations": [
+      {
+        "id": "cda-casino-main",
+        "name": "Resort Main Entrance",
+        "description": "Main hotel & casino entrance. Follow signs to the event center or ask the front desk for our wedding.",
+        "isDefaultArrival": true
+      },
+      {
+        "id": "cda-casino-ceremony",
+        "name": "Ceremony Space",
+        "description": "Our ceremony will be held in an event space at the Casino. Exact room details will be on your itinerary closer to the date.",
+        "isDefaultArrival": false
+      },
+      {
+        "id": "cda-casino-reception",
+        "name": "Reception Hall",
+        "description": "Dinner and dancing will be just a short walk from the ceremony space.",
+        "isDefaultArrival": false
+      },
+      {
+        "id": "cda-casino-cocktail",
+        "name": "Cocktail Hour Area",
+        "description": "Cocktail hour will be held near the reception space.",
+        "isDefaultArrival": false
+      }
+    ]
+  },
+  "lodging": {
+    "primaryHotelId": "cda-hotel-main",
+    "showAlternativeLodging": true,
+    "hotels": [
+      {
+        "id": "cda-hotel-main",
+        "name": "Coeur d'Alene Casino Resort Hotel",
+        "isPrimaryBlock": true,
+        "bookingUrl": "https://www.cdacasino.com/stay",
+        "blockCode": "TO-BE-DETERMINED",
+        "blockName": "Brit & Karl Wedding Block",
+        "checkInDate": "2026-06-19",
+        "checkOutDate": "2026-06-21",
+        "cutoffDate": "2026-05-20",
+        "notes": "This is our main hotel. Please book here if possible so everyone is together.",
+        "priceHint": "$$",
+        "distanceToVenue": "0 minutes (onsite)"
+      },
+      {
+        "id": "nearby-budget",
+        "name": "Nearby Hotels & Motels",
+        "isPrimaryBlock": false,
+        "bookingUrl": "https://www.google.com/maps/search/hotels+near+Coeur+d'Alene+Casino",
+        "blockCode": null,
+        "blockName": null,
+        "checkInDate": null,
+        "checkOutDate": null,
+        "cutoffDate": null,
+        "priceHint": "$-$$",
+        "notes": "If the resort fills up, there are additional options within a short drive.",
+        "distanceToVenue": "5–20 minutes by car"
+      }
+    ]
+  },
+  "travel": {
+    "airports": [
+      {
+        "id": "geg",
+        "code": "GEG",
+        "name": "Spokane International Airport",
+        "city": "Spokane",
+        "state": "WA",
+        "notes": "This is the main airport to use for out-of-town guests."
+      },
+      {
+        "id": "gcn",
+        "code": "COE",
+        "name": "Coeur d'Alene Airport (general aviation)",
+        "city": "Hayden",
+        "state": "ID",
+        "notes": "General aviation only. Use GEG for commercial flights."
+      }
+    ],
+    "driving": {
+      "fromSpokane": "From Spokane, take I-90 east toward Coeur d'Alene, then follow the signs south to the Coeur d'Alene Casino Resort Hotel in Worley, ID.",
+      "fromCDA": "From Coeur d'Alene, head south on US-95 toward Worley and follow signage to the Casino.",
+      "parkingInfo": "Parking at the resort is plentiful and free. Follow signs for hotel/event parking."
+    },
+    "shuttles": {
+      "hasWeddingShuttle": true,
+      "description": "We plan to run a shuttle for key events if there is enough interest. Please indicate if you'd like to use a shuttle when you RSVP.",
+      "requiresRsvpFlag": true
+    },
+    "rideshareNotes": "Uber and Lyft are available in the area, but allow extra time since this is a resort property."
+  },
+  "rsvp": {
+    "requiresHouseholdCode": true,
+    "allowLookupByNameAndEmail": false,
+    "allowPlusOnes": "by_invitation_only",
+    "allowChildren": "limited_family_only",
+    "deadlineDate": "2026-05-20",
+    "guestFields": {
+      "emailOptional": true,
+      "phoneOptional": true,
+      "songRequestEnabled": true,
+      "shuttleToggleEnabled": true,
+      "roomBlockToggleEnabled": true,
+      "notesFieldEnabled": true
+    },
+    "mealChoices": [
+      {
+        "id": "beef",
+        "label": "Beef Entrée",
+        "description": "Steak or roast-style beef entrée with seasonal sides.",
+        "isDefault": false
+      },
+      {
+        "id": "chicken",
+        "label": "Chicken Entrée",
+        "description": "Roasted or grilled chicken with seasonal sides.",
+        "isDefault": true
+      },
+      {
+        "id": "veg",
+        "label": "Vegetarian Entrée",
+        "description": "A hearty vegetarian option. Please let us know any specific needs.",
+        "isDefault": false
+      }
+    ],
+    "dietaryOptions": [
+      "Vegetarian",
+      "Vegan",
+      "Gluten free",
+      "Dairy free",
+      "Nut allergy",
+      "Other"
+    ]
+  },
+  "notifications": {
+    "email": {
+      "enabled": true,
+      "sendOnRsvpSubmit": true,
+      "sendReminderDaysBefore": [30, 7],
+      "sendDayBeforeReminder": true
+    },
+    "sms": {
+      "enabled": true,
+      "collectPhoneOnRsvp": true,
+      "sendDayOfReminder": true,
+      "sendShuttleUpdates": true
+    },
+    "push": {
+      "enabled": false,
+      "notes": "Web push can be added later via service workers."
+    },
+    "adminAlerts": {
+      "onNewRsvp": true,
+      "onRsvpChange": true,
+      "adminEmails": ["karl@example.com", "brit@example.com"]
+    }
+  },
+  "branding": {
+    "primaryColor": "#81D8D0",
+    "accentColor": "#000000",
+    "backgroundColor": "#F7F7F7",
+    "fontHeading": "Playfair Display, serif",
+    "fontBody": "Inter, system-ui, sans-serif",
+    "styleKeywords": [
+      "modern",
+      "minimal",
+      "mountain-chic",
+      "casino-glam"
+    ]
+  },
+  "faq": [
+    {
+      "id": "dress-code",
+      "question": "What should I wear?",
+      "answer": "Dress code is cocktail / mountain chic. Think suits or sport coats, cocktail dresses, jumpsuits, or similar. Please no jeans, shorts, or athletic wear."
+    },
+    {
+      "id": "kids",
+      "question": "Are kids invited?",
+      "answer": "We love your kids, but this will be an adults-focused evening. A small number of family kids will be there; if you have questions about bringing children, please reach out to us directly."
+    },
+    {
+      "id": "gifts",
+      "question": "Do you have a registry?",
+      "answer": "Your presence means the most to us. For those who have asked, we'll share a small registry and a honeymoon fund link on this site closer to the date."
+    },
+    {
+      "id": "photos",
+      "question": "Can I take photos and post on social media?",
+      "answer": "We'd love for you to be present during the ceremony, so we're planning for an unplugged ceremony. After that, please take and share photos freely using our hashtag #SolsticeOf26."
+    },
+    {
+      "id": "casino",
+      "question": "Can we gamble at the Casino?",
+      "answer": "Absolutely. Just don't miss the ceremony or the first dance! Please gamble responsibly."
+    },
+    {
+      "id": "travel",
+      "question": "What's the best way to get there?",
+      "answer": "Fly into Spokane International Airport (GEG), rent a car, and drive to the Coeur d'Alene Casino Resort Hotel in Worley, ID. Parking is free on site."
+    }
+  ],
+  "fun": {
+    "game": {
+      "enabled": true,
+      "route": "/game",
+      "name": "Solstice Runner",
+      "description": "A little endless runner game in the spirit of the Google T-Rex game. Tap or press space to jump!"
+    }
+  }
+}
+

@@ -1,0 +1,11 @@
+0000000000000000000000000000000000000000 13dc01a74bf9967403134f131727494f5b1a5ad6 Karl Vaage <karlv@advancedcabinets.net> 1764724927 -0800	commit (initial): Initial wedding website - Karl & Brit's Solstice of '26 - Ready for deployment
+13dc01a74bf9967403134f131727494f5b1a5ad6 0000000000000000000000000000000000000000 Karl Vaage <karlv@advancedcabinets.net> 1764725193 -0800	Branch: renamed refs/heads/master to refs/heads/main
+0000000000000000000000000000000000000000 13dc01a74bf9967403134f131727494f5b1a5ad6 Karl Vaage <karlv@advancedcabinets.net> 1764725193 -0800	Branch: renamed refs/heads/master to refs/heads/main
+13dc01a74bf9967403134f131727494f5b1a5ad6 c1cbecfe1d30cb5f9ea2e0c1659de088ec05cd65 Karl Vaage <karlv@advancedcabinets.net> 1764725562 -0800	commit: Update domain to britandkarl.com
+c1cbecfe1d30cb5f9ea2e0c1659de088ec05cd65 3e0d12af69dda046e4a019d5b22a5f9e84d242c2 Karl Vaage <karlv@advancedcabinets.net> 1764726638 -0800	commit: Fix RSVP page to use useParams hook for Next.js 14 compatibility
+3e0d12af69dda046e4a019d5b22a5f9e84d242c2 2d88ddbe9b2b1ffd5bf3fdf2aef0c83e4757ec87 Karl Vaage <karlv@advancedcabinets.net> 1764726804 -0800	commit: Fix: Add RSVP index page and update Next.js config for JSON imports
+2d88ddbe9b2b1ffd5bf3fdf2aef0c83e4757ec87 9561d0c9162872314105024df3a8940409dc8be4 Karl Vaage <karlv@advancedcabinets.net> 1764727393 -0800	commit: Fix TypeScript error: dietaryOptions is at rsvp root level, not in guestFields
+9561d0c9162872314105024df3a8940409dc8be4 6b681712c391423ee80083112da9de33bcc37039 Karl Vaage <karlv@advancedcabinets.net> 1764727543 -0800	commit: Add deployment monitoring and success documentation
+6b681712c391423ee80083112da9de33bcc37039 f3c7eb0e048194fddd55e5459c2a9e6f1841e829 Karl Vaage <karlv@advancedcabinets.net> 1764727921 -0800	commit: Add Frat's simplified DNS setup guide for Cloudflare
+f3c7eb0e048194fddd55e5459c2a9e6f1841e829 6a3bc162ca6f6d9eceea3d4e1656f69d2fba80ed Karl Vaage <karlv@advancedcabinets.net> 1765238948 -0800	commit: Add photo gallery system, update pages with photos, and add documentation
+6a3bc162ca6f6d9eceea3d4e1656f69d2fba80ed 97428cc1cec8cb630796846d4cbec6f892bc0441 Karl Vaage <karlv@advancedcabinets.net> 1765302332 -0800	commit: Add wedding photos to gallery - 13 photos now live
