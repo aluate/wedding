@@ -5,7 +5,7 @@ import PhotoSlideshow from '@/components/PhotoSlideshow'
 import { formatAmericanDate, format12HourTime } from '@/lib/dateUtils'
 
 export default function Home() {
-  const { couple, wedding, venue, branding, rsvp } = weddingConfig
+  const { couple, wedding, venue, branding } = weddingConfig
   const heroPhotos = getHeroPhotos()
 
   return (
@@ -24,16 +24,16 @@ export default function Home() {
           </p>
           <div className="flex gap-4 justify-center">
             <Link 
-              href="/rsvp" 
+              href="/details" 
               className="px-8 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition"
             >
-              RSVP
+              Weekend Details
             </Link>
             <Link 
-              href="/schedule" 
+              href="/travel" 
               className="px-8 py-3 border-2 border-primary text-primary rounded-lg font-semibold hover:bg-primary/10 transition"
             >
-              Schedule
+              Travel & Stay
             </Link>
           </div>
         </div>
@@ -70,8 +70,8 @@ export default function Home() {
             <p className="text-accent/70">{venue.name}</p>
           </div>
           <div>
-            <h3 className="font-heading text-2xl mb-2">RSVP By</h3>
-            <p className="text-accent/70">{formatAmericanDate(rsvp.deadlineDate)}</p>
+            <h3 className="font-heading text-2xl mb-2">RSVP</h3>
+            <p className="text-accent/70">Details coming soon</p>
           </div>
         </div>
       </section>
@@ -80,11 +80,17 @@ export default function Home() {
       <section className="py-12 bg-accent/5">
         <div className="max-w-4xl mx-auto px-4">
           <nav className="flex flex-wrap justify-center gap-6">
-            <Link href="/schedule" className="text-accent hover:text-primary transition">
-              Schedule
+            <Link href="/details" className="text-accent hover:text-primary transition">
+              Weekend Details
             </Link>
             <Link href="/travel" className="text-accent hover:text-primary transition">
               Travel & Stay
+            </Link>
+            <Link href="/schedule" className="text-accent hover:text-primary transition">
+              Schedule
+            </Link>
+            <Link href="/menu" className="text-accent hover:text-primary transition">
+              Menu
             </Link>
             <Link href="/gallery" className="text-accent hover:text-primary transition">
               Gallery

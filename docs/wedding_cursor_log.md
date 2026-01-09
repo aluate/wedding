@@ -270,3 +270,157 @@ For future entries, use this format:
 ### Visual Inspection
 - [Pages/viewports to check]
 ```
+
+---
+
+## 2025-01-XX - Menu, RSVP, and Lodging Updates
+
+### Summary
+Removed interactive RSVP system and replaced with email RSVP. Created informational Menu page. Added CDA Casino room booking credentials to Travel page. Updated navigation throughout site.
+
+### Files Touched
+- Created `app/menu/page.tsx` - New informational menu page
+- Modified `app/travel/page.tsx` - Added CDA Casino booking info callout
+- Modified `app/rsvp/page.tsx` - Replaced code entry with email RSVP instructions
+- Modified `app/rsvp/[code]/page.tsx` - Replaced form with email RSVP instructions
+- Modified `app/page.tsx` - Updated hero RSVP button to mailto link, added Menu to navigation
+- Modified `config/wedding_config.json` - Updated blockCode from "TO-BE-DETERMINED" to "BKG467"
+
+### Changes Made
+- **Menu Page (NEW):**
+  - Created simple informational menu page at `/menu`
+  - No interactive elements (no dropdowns, radio buttons, selections)
+  - Shows placeholder text: "Final menu details will be posted closer to the wedding"
+  - Notes dinner will be served family-style
+  - Added to home page navigation
+
+- **RSVP System Replacement:**
+  - Removed all RSVP code entry functionality
+  - Removed RSVP form with meal choices and dietary options
+  - Replaced `/rsvp` page with email RSVP instructions
+  - Replaced `/rsvp/[code]` page with email RSVP instructions (same content)
+  - Updated home page hero button from RSVP link to mailto: `karlvaage94@gmail.com`
+  - Updated navigation footer: RSVP link now shows "RSVP (Email)" with mailto link
+  - Email RSVP copy includes:
+    - "Please RSVP by emailing us at karlvaage94@gmail.com"
+    - "Include your name and number of guests in your party."
+    - "Dietary restrictions welcome."
+
+- **Lodging/Travel Updates:**
+  - Added prominent booking info callout box for CDA Casino (primary hotel block)
+  - Callout includes:
+    - "To book under our room block:"
+    - Online at cdacasino.com
+    - Booking ID: BKG467
+    - Password: 16494486
+  - Styled as info box with border and background color
+  - Copy-friendly layout (each credential on its own line)
+  - Updated config blockCode from placeholder to actual booking ID
+
+- **Navigation Updates:**
+  - Added "Menu" link to home page navigation footer
+  - Changed "RSVP" link to "RSVP (Email)" with mailto link
+  - Updated hero section RSVP button to mailto link
+
+### Follow-up Recommendations
+- Consider removing or archiving the `/rsvp/[code]` route entirely if it's no longer needed (currently redirects to email instructions)
+- Admin dashboard still references RSVP system - may need updates if admin functionality is used
+- Menu page can be updated with actual menu items when finalized
+
+### Open Questions
+- None - changes complete per requirements
+
+### Visual Inspection
+- **Home page (desktop/mobile):**
+  - Hero section: RSVP button should be mailto link
+  - Navigation footer: Should show "Menu" and "RSVP (Email)" links
+- **Menu page (`/menu`):**
+  - Should show informational content only (no forms/interactions)
+  - Verify placeholder text displays correctly
+- **Travel page (`/travel`):**
+  - Check "Where to Stay" section for CDA Casino booking callout
+  - Verify booking credentials are clearly displayed in info box
+- **RSVP page (`/rsvp`):**
+  - Should show email RSVP instructions only (no code entry form)
+  - Verify mailto link works
+- **RSVP code route (`/rsvp/[code]`):**
+  - Should show same email RSVP instructions (no form)
+  - Consider if this route should redirect to `/rsvp` instead
+
+---
+
+## 2025-01-XX - Save-the-Date Mode Updates
+
+### Summary
+Updated site for save-the-date mode: RSVP shows "coming soon" message, Menu is more vague, created Weekend Details page as information hub. Removed all RSVP form/code references. Updated navigation to prioritize travel/lodging and weekend details.
+
+### Files Touched
+- Modified `app/rsvp/page.tsx` - Changed to "coming soon" message with contact info
+- Modified `app/rsvp/[code]/page.tsx` - Changed to same "coming soon" message (no code functionality)
+- Modified `app/menu/page.tsx` - Updated to vague copy: "Dinner and drinks will be served. More details coming soon."
+- Created `app/details/page.tsx` - New Weekend Details page as information hub
+- Modified `app/page.tsx` - Updated hero buttons and navigation for save-the-date mode
+
+### Changes Made
+- **RSVP Pages - "Coming Soon" Mode:**
+  - Removed all RSVP form/code references
+  - Both `/rsvp` and `/rsvp/[code]` now show same message:
+    - "RSVP details coming soon with formal invitations."
+    - Contact info: Email karlvaage94@gmail.com or call/text (208) 827-0034
+  - No forms, no codes, no portal language
+  - Clean, reassuring message for save-the-date recipients
+
+- **Menu Page - Vague & Informational:**
+  - Updated copy to be more vague:
+    - "Dinner and drinks will be served."
+    - "More details coming soon."
+  - Removed specific details about service style
+  - Keeps it simple and non-committal
+
+- **Weekend Details Page (NEW):**
+  - Created `/details` page as information hub
+  - Heading: "Weekend Details"
+  - Subheading: "More information coming soon — for now, check out our travel and lodging information below."
+  - Includes sections:
+    - Travel & Lodging (links to /travel)
+    - Schedule (links to /schedule)
+    - Questions? (contact info)
+  - Serves as "more details coming soon" hub
+
+- **Home Page Updates:**
+  - Hero buttons changed:
+    - Primary: "Weekend Details" (links to /details)
+    - Secondary: "Travel & Stay" (links to /travel)
+    - Removed RSVP button from hero
+  - Quick Info section:
+    - Changed "RSVP By" to "RSVP" with "Details coming soon"
+    - Removed deadline date
+  - Navigation footer:
+    - Added "Weekend Details" as first link
+    - Reordered: Weekend Details, Travel & Stay, Schedule, Menu, Gallery, RSVP
+    - RSVP link now goes to /rsvp (not mailto)
+
+### Follow-up Recommendations
+- Consider if `/rsvp/[code]` route should redirect to `/rsvp` using Next.js redirect
+- Weekend Details page can be expanded with more sections as information becomes available
+- Menu page can be updated with actual menu when finalized
+
+### Open Questions
+- None - changes complete for save-the-date mode
+
+### Visual Inspection
+- **Home page (desktop/mobile):**
+  - Hero: "Weekend Details" and "Travel & Stay" buttons
+  - Quick Info: "RSVP" shows "Details coming soon" (no date)
+  - Navigation: "Weekend Details" is first link
+- **Weekend Details page (`/details`):**
+  - Should show heading, subheading, and three info cards
+  - Links to Travel and Schedule should work
+  - Contact info should be clickable
+- **RSVP page (`/rsvp`):**
+  - Should show "coming soon" message only
+  - Contact info (email and phone) should be clickable
+- **RSVP code route (`/rsvp/[code]`):**
+  - Should show same "coming soon" message (no code functionality)
+- **Menu page (`/menu`):**
+  - Should show vague copy: "Dinner and drinks will be served. More details coming soon."

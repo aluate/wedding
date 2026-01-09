@@ -91,9 +91,19 @@ export default function Travel() {
               <div key={hotel.id} className="bg-white p-6 rounded-lg shadow-sm">
                 <p className="font-semibold text-lg mb-2">{hotel.name}</p>
                 {hotel.isPrimaryBlock && (
-                  <p className="text-primary font-semibold mb-2">Primary Hotel Block</p>
+                  <>
+                    <p className="text-primary font-semibold mb-4">Primary Hotel Block</p>
+                    <div className="bg-primary/10 border-2 border-primary/30 p-4 rounded-lg mb-4">
+                      <p className="font-semibold mb-2">To book under our room block:</p>
+                      <div className="space-y-1 font-mono text-sm">
+                        <p>Online at cdacasino.com</p>
+                        <p>Booking ID: BKG467</p>
+                        <p>Password: 16494486</p>
+                      </div>
+                    </div>
+                  </>
                 )}
-                {hotel.blockCode && (
+                {hotel.blockCode && hotel.blockCode !== "TO-BE-DETERMINED" && (
                   <p className="text-accent/70 mb-2">
                     Block Code: <span className="font-mono">{hotel.blockCode}</span>
                   </p>
