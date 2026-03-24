@@ -73,7 +73,7 @@ export default function Travel() {
               <p className="text-accent/70">{travel.driving.fromSpokane}</p>
             </div>
             <div>
-              <p className="font-semibold mb-2">From Coeur d'Alene:</p>
+              <p className="font-semibold mb-2">From Coeur d&apos;Alene:</p>
               <p className="text-accent/70">{travel.driving.fromCDA}</p>
             </div>
             <div>

@@ -71,7 +71,9 @@ export default function Home() {
           </div>
           <div>
             <h3 className="font-heading text-2xl mb-2">RSVP</h3>
-            <p className="text-accent/70">Details coming soon</p>
+            <Link href="/rsvp" className="text-primary hover:underline font-semibold text-accent/80">
+              Respond online →
+            </Link>
           </div>
         </div>
       </section>

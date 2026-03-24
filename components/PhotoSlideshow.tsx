@@ -17,21 +17,22 @@ export default function PhotoSlideshow({
 }: PhotoSlideshowProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const len = photos?.length ?? 0
 
-  if (!photos || photos.length === 0) {
-    return null
-  }
-
-  // Auto-advance
+  // Auto-advance (hooks must run before any early return)
   useEffect(() => {
-    if (!autoPlay || isPaused || photos.length <= 1) return
+    if (len === 0 || !autoPlay || isPaused || len <= 1) return
 
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % photos.length)
+      setCurrentIndex((prev) => (prev + 1) % len)
     }, intervalMs)
 
     return () => clearInterval(interval)
-  }, [autoPlay, isPaused, intervalMs, photos.length])
+  }, [autoPlay, isPaused, intervalMs, len])
+
+  if (!photos || len === 0) {
+    return null
+  }
 
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev - 1 + photos.length) % photos.length)

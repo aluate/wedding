@@ -17,7 +17,7 @@ export default function Details() {
           <div className="bg-white p-6 rounded-lg shadow-sm">
             <h2 className="font-heading text-2xl mb-4">Travel & Lodging</h2>
             <p className="text-accent/70 mb-4">
-              We've set up a room block at the Coeur d'Alene Casino Resort Hotel. Booking information and travel details are available now.
+              We&apos;ve set up a room block at the Coeur d&apos;Alene Casino Resort Hotel. Booking information and travel details are available now.
             </p>
             <Link 
               href="/travel" 
