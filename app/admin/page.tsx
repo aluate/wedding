@@ -27,6 +27,10 @@ export default function AdminPage() {
             ← Back to Home
           </Link>
           <h1 className="font-heading text-5xl mt-4">Admin Dashboard</h1>
+          <p className="mt-2 text-sm text-accent/60 max-w-2xl">
+            Guest numbers below are demo placeholders. Export live RSVPs from Supabase or use{' '}
+            <code className="text-xs bg-accent/10 px-1 rounded">GET /api/rsvp/export</code> when configured.
+          </p>
         </div>
 
         {/* Navigation Tabs */}
