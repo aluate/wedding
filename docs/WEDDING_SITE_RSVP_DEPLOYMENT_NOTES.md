@@ -83,12 +83,12 @@ curl -sS "https://YOUR_DOMAIN/api/rsvp/export" \
 
 | Item | Status |
 |------|--------|
-| **Committed** | (set at release time) |
-| **Pushed branch** | (set at release time) |
-| **Production deploy** | **Not verified from this workspace** — confirm in Vercel dashboard |
+| **Committed** | Yes — `5599fd0` on `save-the-date-mode` |
+| **Pushed branch** | `origin/save-the-date-mode` (2026-03-24) |
+| **Production deploy** | **Not verified from this workspace** — Vercel may still track `main`; merge or change production branch to pick up this commit |
 | **Public RSVP URL** | `https://britandkarl.com/rsvp` (per `config/wedding_config.json` primary domain) |
 
-**Production branch:** Repo CI watches `main`, `master`, `develop` (`.github/workflows/ci.yml`). Vercel production branch must be confirmed under **Project → Settings → Git**.
+**Production branch:** Repo CI watches `main`, `master`, `develop` (`.github/workflows/ci.yml`). This push was to **`save-the-date-mode`** — confirm which branch Vercel deploys under **Project → Settings → Git**.
 
 ---
 
