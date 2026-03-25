@@ -1,6 +1,5 @@
 import weddingConfig from '@/config/wedding_config.json'
-import Link from 'next/link'
-import { getPhotosByCategory, getAllWeddingPhotos } from '@/lib/photos'
+import { getAllWeddingPhotos } from '@/lib/photos'
 import PhotoStrip from '@/components/PhotoStrip'
 import { format12HourTime } from '@/lib/dateUtils'
 
@@ -12,10 +11,6 @@ export default function Schedule() {
   return (
     <main className="min-h-screen py-12 px-4">
       <div className="max-w-4xl mx-auto">
-        <Link href="/" className="text-primary mb-6 inline-block hover:underline">
-          ← Back to Home
-        </Link>
-        
         <h1 className="font-heading text-5xl mb-8">Schedule</h1>
         
         {/* Photo strip */}

@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS public.rsvp_submissions (
   attending boolean NOT NULL,
   guest_count integer NOT NULL DEFAULT 0,
   guest_names text,
+  meal_choice text,
   dietary_restrictions text,
   notes text,
   invite_code text,

@@ -6,6 +6,7 @@ export type RsvpPayload = {
   attending: boolean
   guest_count: number
   guest_names?: string | null
+  meal_choice?: string | null
   dietary_restrictions?: string | null
   notes?: string | null
   invite_code?: string | null
@@ -71,6 +72,8 @@ export function validateRsvpPayload(raw: unknown): { ok: true; data: RsvpPayload
 
   const guest_names =
     typeof o.guest_names === 'string' ? o.guest_names.trim() || null : null
+  const meal_choice =
+    typeof o.meal_choice === 'string' ? o.meal_choice.trim() || null : null
   const dietary_restrictions =
     typeof o.dietary_restrictions === 'string' ? o.dietary_restrictions.trim() || null : null
   const notes = typeof o.notes === 'string' ? o.notes.trim() || null : null
@@ -91,6 +94,7 @@ export function validateRsvpPayload(raw: unknown): { ok: true; data: RsvpPayload
       attending,
       guest_count,
       guest_names,
+      meal_choice,
       dietary_restrictions,
       notes,
       invite_code,

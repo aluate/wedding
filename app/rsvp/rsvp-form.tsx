@@ -17,6 +17,7 @@ export function RsvpForm({ defaultInviteCode }: Props) {
   const [attending, setAttending] = useState<boolean | null>(null)
   const [guestCount, setGuestCount] = useState('1')
   const [guestNames, setGuestNames] = useState('')
+  const [mealChoice, setMealChoice] = useState('')
   const [dietary, setDietary] = useState('')
   const [householdName, setHouseholdName] = useState('')
   const [mailingAddress, setMailingAddress] = useState('')
@@ -56,6 +57,7 @@ export function RsvpForm({ defaultInviteCode }: Props) {
           attending,
           guest_count: gc,
           guest_names: guestNames.trim() || null,
+          meal_choice: mealChoice || null,
           dietary_restrictions: dietary.trim() || null,
           notes: notes.trim() || null,
           invite_code: inviteCode.trim() || null,
@@ -105,8 +107,8 @@ export function RsvpForm({ defaultInviteCode }: Props) {
   return (
     <form onSubmit={onSubmit} className="bg-white p-6 rounded-lg shadow-sm space-y-6 border border-accent/10">
       <p className="text-accent/80 leading-relaxed">
-        Please respond by early June so we can finalize seating and catering. Use the same email if you need to
-        update your RSVP later.
+        Please respond by <strong>May 20, 2026</strong> so we can finalize seating and catering. Use the same
+        email if you need to update your RSVP later.
       </p>
 
       {defaultInviteCode ? (
@@ -254,6 +256,29 @@ export function RsvpForm({ defaultInviteCode }: Props) {
               className="w-full px-3 py-2 rounded-md border border-accent/20 bg-background focus:outline-none focus:ring-2 focus:ring-primary/80"
               placeholder="Plus-ones, kids, or others in your party"
             />
+          </div>
+
+          <div>
+            <label htmlFor="meal_choice" className="block text-sm font-semibold text-accent mb-1">
+              Meal preference <span className="text-red-600">*</span>
+            </label>
+            <select
+              id="meal_choice"
+              required
+              value={mealChoice}
+              onChange={(e) => setMealChoice(e.target.value)}
+              className="w-full px-3 py-2 rounded-md border border-accent/20 bg-background focus:outline-none focus:ring-2 focus:ring-primary/80"
+            >
+              <option value="">Select an option</option>
+              {weddingConfig.rsvp.mealChoices.map((meal) => (
+                <option key={meal.id} value={meal.id}>
+                  {meal.label}
+                </option>
+              ))}
+            </select>
+            <p className="text-xs text-accent/60 mt-1">
+              For the primary guest. Note any other needs below.
+            </p>
           </div>
 
           <div>

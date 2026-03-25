@@ -42,6 +42,7 @@ export async function POST(request: Request) {
       attending: data.attending,
       guest_count: data.guest_count,
       guest_names: data.guest_names,
+      meal_choice: data.meal_choice,
       dietary_restrictions: data.dietary_restrictions,
       notes: data.notes,
       invite_code: data.invite_code,

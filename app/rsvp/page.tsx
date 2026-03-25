@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import type { Metadata } from 'next'
 import { RsvpForm } from './rsvp-form'
 
@@ -17,10 +16,6 @@ export default function RSVPIndexPage({
   return (
     <main className="min-h-screen py-12 px-4">
       <div className="max-w-2xl mx-auto">
-        <Link href="/" className="text-primary mb-6 inline-block hover:underline">
-          ← Back to Home
-        </Link>
-
         <h1 className="font-heading text-5xl mb-2">RSVP</h1>
         <p className="text-accent/70 mb-8">June 20, 2026 · Coeur d&apos;Alene Casino Resort Hotel</p>
 
