@@ -87,7 +87,12 @@ export default function Travel() {
                 <p className="font-semibold text-lg mb-2">{hotel.name}</p>
                 {hotel.isPrimaryBlock && (
                   <>
-                    <p className="text-primary font-semibold mb-4">Primary Hotel Block</p>
+                    <p className="text-primary font-semibold mb-2">Our Room Block</p>
+                    <div className="bg-red-50 border border-red-200 px-4 py-2 rounded-lg mb-3">
+                      <p className="text-sm font-semibold text-red-700">
+                        Book by May 20, 2026 to get the group rate
+                      </p>
+                    </div>
                     <div className="bg-primary/10 border-2 border-primary/30 p-4 rounded-lg mb-4">
                       <p className="font-semibold mb-2">To book under our room block:</p>
                       <div className="space-y-1 font-mono text-sm">

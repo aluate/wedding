@@ -2,10 +2,11 @@ import weddingConfig from '@/config/wedding_config.json'
 import Link from 'next/link'
 import { getHeroPhotos } from '@/lib/photos'
 import PhotoSlideshow from '@/components/PhotoSlideshow'
+import Countdown from '@/components/Countdown'
 import { formatAmericanDate, format12HourTime } from '@/lib/dateUtils'
 
 export default function Home() {
-  const { couple, wedding, venue, branding } = weddingConfig
+  const { couple, wedding, venue } = weddingConfig
   const heroPhotos = getHeroPhotos()
 
   return (
@@ -16,26 +17,32 @@ export default function Home() {
           <h1 className="font-heading text-6xl md:text-8xl mb-4 text-accent">
             {couple.displayNames}
           </h1>
-          <p className="text-2xl md:text-3xl mb-8 text-accent/80">
+          <p className="text-2xl md:text-3xl mb-2 text-accent/80">
             {formatAmericanDate(wedding.date)}
           </p>
-          <p className="text-xl md:text-2xl mb-12 text-accent/70">
+          <p className="text-xl md:text-2xl mb-8 text-accent/70">
             {venue.name}
           </p>
-          <div className="flex gap-4 justify-center">
-            <Link 
-              href="/details" 
+          <div className="mb-10">
+            <Countdown />
+          </div>
+          <div className="flex gap-4 justify-center flex-wrap">
+            <Link
+              href="/rsvp"
               className="px-8 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition"
+            >
+              RSVP Now
+            </Link>
+            <Link
+              href="/details"
+              className="px-8 py-3 border-2 border-primary text-primary rounded-lg font-semibold hover:bg-primary/10 transition"
             >
               Weekend Details
             </Link>
-            <Link 
-              href="/travel" 
-              className="px-8 py-3 border-2 border-primary text-primary rounded-lg font-semibold hover:bg-primary/10 transition"
-            >
-              Travel & Stay
-            </Link>
           </div>
+          <p className="mt-4 text-sm text-accent/50">
+            Please RSVP by May 20, 2026
+          </p>
         </div>
       </section>
 
@@ -45,11 +52,11 @@ export default function Home() {
           <div className="max-w-5xl mx-auto">
             <PhotoSlideshow photos={heroPhotos} autoPlay={true} intervalMs={4000} />
             <div className="text-center mt-8">
-              <Link 
-                href="/gallery" 
+              <Link
+                href="/gallery"
                 className="text-primary hover:text-primary/80 font-semibold transition"
               >
-                See more photos →
+                See more photos &rarr;
               </Link>
             </div>
           </div>
@@ -71,9 +78,10 @@ export default function Home() {
           </div>
           <div>
             <h3 className="font-heading text-2xl mb-2">RSVP</h3>
-            <Link href="/rsvp" className="text-primary hover:underline font-semibold text-accent/80">
-              Respond online →
+            <Link href="/rsvp" className="text-primary hover:underline font-semibold">
+              Respond online &rarr;
             </Link>
+            <p className="text-xs text-accent/50 mt-1">Deadline: May 20, 2026</p>
           </div>
         </div>
       </section>
@@ -86,16 +94,16 @@ export default function Home() {
               Weekend Details
             </Link>
             <Link href="/travel" className="text-accent hover:text-primary transition">
-              Travel & Stay
+              Travel &amp; Stay
             </Link>
             <Link href="/schedule" className="text-accent hover:text-primary transition">
               Schedule
             </Link>
-            <Link href="/menu" className="text-accent hover:text-primary transition">
-              Menu
-            </Link>
             <Link href="/gallery" className="text-accent hover:text-primary transition">
               Gallery
+            </Link>
+            <Link href="/photos" className="text-accent hover:text-primary transition">
+              Photo Wall
             </Link>
             <Link href="/rsvp" className="text-accent hover:text-primary transition">
               RSVP
@@ -106,4 +114,3 @@ export default function Home() {
     </main>
   )
 }
-

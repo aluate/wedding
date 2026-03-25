@@ -6,18 +6,23 @@ export type RsvpPayload = {
   attending: boolean
   guest_count: number
   guest_names?: string | null
-  meal_choice?: string | null
   dietary_restrictions?: string | null
   notes?: string | null
-  invite_code?: string | null
+  household_code: string
   household_name?: string | null
   mailing_address?: string | null
+  staying_friday: boolean
+  staying_saturday: boolean
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export function normalizeEmail(email: string): string {
   return email.trim().toLowerCase()
+}
+
+export function normalizeHouseholdCode(code: string): string {
+  return code.trim().toLowerCase().replace(/\s+/g, '')
 }
 
 export function validateRsvpPayload(raw: unknown): { ok: true; data: RsvpPayload } | { ok: false; message: string } {
@@ -34,6 +39,12 @@ export function validateRsvpPayload(raw: unknown): { ok: true; data: RsvpPayload
     o.phone === undefined || o.phone === null || o.phone === ''
       ? null
       : String(o.phone).trim() || null
+
+  const household_code_raw = typeof o.household_code === 'string' ? o.household_code.trim() : ''
+  if (!household_code_raw) {
+    return { ok: false, message: 'Household code is required. Check your invitation for the code.' }
+  }
+  const household_code = normalizeHouseholdCode(household_code_raw)
 
   let attending: boolean
   if (o.attending === true || o.attending === 'true') attending = true
@@ -63,8 +74,8 @@ export function validateRsvpPayload(raw: unknown): { ok: true; data: RsvpPayload
     if (guest_count < 1) {
       return { ok: false, message: 'If you are attending, guest count must be at least 1 (including you)' }
     }
-    if (guest_count > 50) {
-      return { ok: false, message: 'Please contact us if your party is larger than 50 guests' }
+    if (guest_count > 20) {
+      return { ok: false, message: 'Please contact us if your party is larger than 20' }
     }
   } else {
     guest_count = 0
@@ -72,17 +83,16 @@ export function validateRsvpPayload(raw: unknown): { ok: true; data: RsvpPayload
 
   const guest_names =
     typeof o.guest_names === 'string' ? o.guest_names.trim() || null : null
-  const meal_choice =
-    typeof o.meal_choice === 'string' ? o.meal_choice.trim() || null : null
   const dietary_restrictions =
     typeof o.dietary_restrictions === 'string' ? o.dietary_restrictions.trim() || null : null
   const notes = typeof o.notes === 'string' ? o.notes.trim() || null : null
-  const invite_code =
-    typeof o.invite_code === 'string' ? o.invite_code.trim() || null : null
   const household_name =
     typeof o.household_name === 'string' ? o.household_name.trim() || null : null
   const mailing_address =
     typeof o.mailing_address === 'string' ? o.mailing_address.trim() || null : null
+
+  const staying_friday = o.staying_friday === true || o.staying_friday === 'true'
+  const staying_saturday = o.staying_saturday === true || o.staying_saturday === 'true'
 
   return {
     ok: true,
@@ -94,12 +104,13 @@ export function validateRsvpPayload(raw: unknown): { ok: true; data: RsvpPayload
       attending,
       guest_count,
       guest_names,
-      meal_choice,
       dietary_restrictions,
       notes,
-      invite_code,
+      household_code,
       household_name,
       mailing_address,
+      staying_friday,
+      staying_saturday,
     },
   }
 }

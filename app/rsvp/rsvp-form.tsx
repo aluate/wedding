@@ -4,12 +4,13 @@ import { useMemo, useState } from 'react'
 import weddingConfig from '@/config/wedding_config.json'
 
 type Props = {
-  defaultInviteCode?: string
+  defaultHouseholdCode?: string
 }
 
-export function RsvpForm({ defaultInviteCode }: Props) {
+export function RsvpForm({ defaultHouseholdCode }: Props) {
   const supportEmail = weddingConfig.site.supportEmail
 
+  const [householdCode, setHouseholdCode] = useState(defaultHouseholdCode ?? '')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -17,12 +18,12 @@ export function RsvpForm({ defaultInviteCode }: Props) {
   const [attending, setAttending] = useState<boolean | null>(null)
   const [guestCount, setGuestCount] = useState('1')
   const [guestNames, setGuestNames] = useState('')
-  const [mealChoice, setMealChoice] = useState('')
   const [dietary, setDietary] = useState('')
   const [householdName, setHouseholdName] = useState('')
   const [mailingAddress, setMailingAddress] = useState('')
+  const [stayingFriday, setStayingFriday] = useState(false)
+  const [stayingSaturday, setStayingSaturday] = useState(false)
   const [notes, setNotes] = useState('')
-  const [inviteCode, setInviteCode] = useState(defaultInviteCode ?? '')
 
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
@@ -50,6 +51,7 @@ export function RsvpForm({ defaultInviteCode }: Props) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          household_code: householdCode.trim(),
           first_name: firstName,
           last_name: lastName,
           email,
@@ -57,12 +59,12 @@ export function RsvpForm({ defaultInviteCode }: Props) {
           attending,
           guest_count: gc,
           guest_names: guestNames.trim() || null,
-          meal_choice: mealChoice || null,
           dietary_restrictions: dietary.trim() || null,
           notes: notes.trim() || null,
-          invite_code: inviteCode.trim() || null,
           household_name: householdName.trim() || null,
           mailing_address: mailingAddress.trim() || null,
+          staying_friday: stayingFriday,
+          staying_saturday: stayingSaturday,
         }),
       })
 
@@ -88,17 +90,19 @@ export function RsvpForm({ defaultInviteCode }: Props) {
   if (status === 'success') {
     return (
       <div className="bg-white p-6 rounded-lg shadow-sm space-y-4 border border-primary/30">
-        <h2 className="font-heading text-2xl text-accent">Thank you</h2>
+        <h2 className="font-heading text-2xl text-accent">Thank you!</h2>
         <p className="text-accent/80 leading-relaxed">
-          Your RSVP has been saved. If anything changes, submit again with the same email — we will keep your
-          latest response.
+          Your RSVP has been saved. If anything changes, submit again with the same email
+          and we&apos;ll keep your latest response.
+        </p>
+        <p className="text-accent/60 text-sm">
+          We&apos;ll be in touch with more details as the big day approaches.
         </p>
         <p className="text-accent/70 text-sm">
           Questions? Email{' '}
           <a href={`mailto:${supportEmail}`} className="text-primary font-semibold hover:underline">
             {supportEmail}
           </a>
-          .
         </p>
       </div>
     )
@@ -107,33 +111,39 @@ export function RsvpForm({ defaultInviteCode }: Props) {
   return (
     <form onSubmit={onSubmit} className="bg-white p-6 rounded-lg shadow-sm space-y-6 border border-accent/10">
       <p className="text-accent/80 leading-relaxed">
-        Please respond by <strong>May 20, 2026</strong> so we can finalize seating and catering. Use the same
-        email if you need to update your RSVP later.
+        Please respond by <strong>May 20, 2026</strong> so we can finalize headcount and hotel rooms.
+        Use the same email if you need to update your RSVP later.
       </p>
 
-      {defaultInviteCode ? (
-        <p className="text-sm text-accent/70 bg-primary/10 px-3 py-2 rounded-md">
-          Invite code: <span className="font-semibold text-accent">{defaultInviteCode}</span>
-        </p>
-      ) : null}
+      {/* Household code — always first and prominent */}
+      <div className="bg-primary/5 border border-primary/20 p-4 rounded-lg">
+        <label htmlFor="household_code" className="block text-sm font-semibold text-accent mb-1">
+          Household code <span className="text-red-600">*</span>
+        </label>
+        {defaultHouseholdCode ? (
+          <p className="font-mono text-lg font-semibold text-accent">
+            {defaultHouseholdCode}
+          </p>
+        ) : (
+          <>
+            <input
+              id="household_code"
+              type="text"
+              required
+              autoComplete="off"
+              value={householdCode}
+              onChange={(e) => setHouseholdCode(e.target.value)}
+              className="w-full px-3 py-2 rounded-md border border-accent/20 bg-white focus:outline-none focus:ring-2 focus:ring-primary/80 font-mono"
+              placeholder="e.g. smith3456"
+            />
+            <p className="text-xs text-accent/60 mt-1">
+              Your last name + the numbers from your mailing address. Check your invitation if unsure.
+            </p>
+          </>
+        )}
+      </div>
 
-      {!defaultInviteCode ? (
-        <div>
-          <label htmlFor="invite_code" className="block text-sm font-semibold text-accent mb-1">
-            Invite code <span className="font-normal text-accent/60">(optional)</span>
-          </label>
-          <input
-            id="invite_code"
-            type="text"
-            autoComplete="off"
-            value={inviteCode}
-            onChange={(e) => setInviteCode(e.target.value)}
-            className="w-full px-3 py-2 rounded-md border border-accent/20 bg-background focus:outline-none focus:ring-2 focus:ring-primary/80"
-            placeholder="If your invitation listed a code"
-          />
-        </div>
-      ) : null}
-
+      {/* Name */}
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
           <label htmlFor="first_name" className="block text-sm font-semibold text-accent mb-1">
@@ -163,6 +173,7 @@ export function RsvpForm({ defaultInviteCode }: Props) {
         </div>
       </div>
 
+      {/* Contact */}
       <div>
         <label htmlFor="email" className="block text-sm font-semibold text-accent mb-1">
           Email <span className="text-red-600">*</span>
@@ -194,6 +205,7 @@ export function RsvpForm({ defaultInviteCode }: Props) {
         />
       </div>
 
+      {/* Attending */}
       <fieldset className="space-y-2">
         <legend className="text-sm font-semibold text-accent mb-2">
           Will you attend? <span className="text-red-600">*</span>
@@ -210,7 +222,7 @@ export function RsvpForm({ defaultInviteCode }: Props) {
               }}
               className="text-primary focus:ring-primary"
             />
-            <span>Yes, can&apos;t wait</span>
+            <span>Yes, can&apos;t wait!</span>
           </label>
           <label className="inline-flex items-center gap-2 cursor-pointer">
             <input
@@ -225,17 +237,18 @@ export function RsvpForm({ defaultInviteCode }: Props) {
         </div>
       </fieldset>
 
-      {attendingYes ? (
+      {/* Attending-only fields */}
+      {attendingYes && (
         <>
           <div>
             <label htmlFor="guest_count" className="block text-sm font-semibold text-accent mb-1">
-              Total guests in your party <span className="text-red-600">*</span>
+              How many in your party? <span className="text-red-600">*</span>
             </label>
             <input
               id="guest_count"
               type="number"
               min={1}
-              max={50}
+              max={20}
               required
               value={guestCount}
               onChange={(e) => setGuestCount(e.target.value)}
@@ -246,7 +259,7 @@ export function RsvpForm({ defaultInviteCode }: Props) {
 
           <div>
             <label htmlFor="guest_names" className="block text-sm font-semibold text-accent mb-1">
-              Names of additional guests <span className="font-normal text-accent/60">(optional)</span>
+              Names of everyone in your party
             </label>
             <textarea
               id="guest_names"
@@ -254,36 +267,13 @@ export function RsvpForm({ defaultInviteCode }: Props) {
               value={guestNames}
               onChange={(e) => setGuestNames(e.target.value)}
               className="w-full px-3 py-2 rounded-md border border-accent/20 bg-background focus:outline-none focus:ring-2 focus:ring-primary/80"
-              placeholder="Plus-ones, kids, or others in your party"
+              placeholder="List each person attending with you"
             />
           </div>
 
           <div>
-            <label htmlFor="meal_choice" className="block text-sm font-semibold text-accent mb-1">
-              Meal preference <span className="text-red-600">*</span>
-            </label>
-            <select
-              id="meal_choice"
-              required
-              value={mealChoice}
-              onChange={(e) => setMealChoice(e.target.value)}
-              className="w-full px-3 py-2 rounded-md border border-accent/20 bg-background focus:outline-none focus:ring-2 focus:ring-primary/80"
-            >
-              <option value="">Select an option</option>
-              {weddingConfig.rsvp.mealChoices.map((meal) => (
-                <option key={meal.id} value={meal.id}>
-                  {meal.label}
-                </option>
-              ))}
-            </select>
-            <p className="text-xs text-accent/60 mt-1">
-              For the primary guest. Note any other needs below.
-            </p>
-          </div>
-
-          <div>
             <label htmlFor="dietary" className="block text-sm font-semibold text-accent mb-1">
-              Dietary restrictions <span className="font-normal text-accent/60">(optional)</span>
+              Dietary restrictions or allergies <span className="font-normal text-accent/60">(optional)</span>
             </label>
             <textarea
               id="dietary"
@@ -294,12 +284,41 @@ export function RsvpForm({ defaultInviteCode }: Props) {
               placeholder="Allergies, vegetarian, etc."
             />
           </div>
-        </>
-      ) : null}
 
+          {/* Hotel nights */}
+          <fieldset className="bg-accent/5 p-4 rounded-lg space-y-3">
+            <legend className="text-sm font-semibold text-accent mb-1">
+              Hotel nights at the Casino Resort
+            </legend>
+            <p className="text-xs text-accent/60">
+              Help us plan the room block. Check the nights you plan to stay.
+            </p>
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={stayingFriday}
+                onChange={(e) => setStayingFriday(e.target.checked)}
+                className="text-primary focus:ring-primary rounded"
+              />
+              <span className="text-sm">Friday, June 19 (night before)</span>
+            </label>
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={stayingSaturday}
+                onChange={(e) => setStayingSaturday(e.target.checked)}
+                className="text-primary focus:ring-primary rounded"
+              />
+              <span className="text-sm">Saturday, June 20 (wedding night)</span>
+            </label>
+          </fieldset>
+        </>
+      )}
+
+      {/* Address — shown for both attending and not */}
       <div>
         <label htmlFor="household_name" className="block text-sm font-semibold text-accent mb-1">
-          Household / mailing name <span className="font-normal text-accent/60">(optional)</span>
+          Household / mailing name
         </label>
         <input
           id="household_name"
@@ -307,13 +326,13 @@ export function RsvpForm({ defaultInviteCode }: Props) {
           value={householdName}
           onChange={(e) => setHouseholdName(e.target.value)}
           className="w-full px-3 py-2 rounded-md border border-accent/20 bg-background focus:outline-none focus:ring-2 focus:ring-primary/80"
-          placeholder="How your mail is addressed"
+          placeholder="How your mail is addressed (e.g. The Smith Family)"
         />
       </div>
 
       <div>
         <label htmlFor="mailing_address" className="block text-sm font-semibold text-accent mb-1">
-          Mailing address <span className="font-normal text-accent/60">(optional, for thank-you notes)</span>
+          Mailing address <span className="font-normal text-accent/60">(for thank-you notes)</span>
         </label>
         <textarea
           id="mailing_address"
@@ -338,14 +357,14 @@ export function RsvpForm({ defaultInviteCode }: Props) {
         />
       </div>
 
-      {status === 'error' && errorMessage ? (
+      {status === 'error' && errorMessage && (
         <div
           role="alert"
           className="text-sm text-red-700 bg-red-50 border border-red-200 px-3 py-2 rounded-md"
         >
           {errorMessage}
         </div>
-      ) : null}
+      )}
 
       <div className="pt-2">
         <button
@@ -353,7 +372,7 @@ export function RsvpForm({ defaultInviteCode }: Props) {
           disabled={status === 'submitting'}
           className="w-full sm:w-auto px-8 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {status === 'submitting' ? 'Sending…' : 'Submit RSVP'}
+          {status === 'submitting' ? 'Sending...' : 'Submit RSVP'}
         </button>
       </div>
     </form>

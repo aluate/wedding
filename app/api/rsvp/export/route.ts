@@ -38,7 +38,7 @@ export async function GET(request: Request) {
   const { data, error } = await supabase
     .from('rsvp_submissions')
     .select(
-      'id,email,first_name,last_name,phone,attending,guest_count,guest_names,meal_choice,dietary_restrictions,notes,invite_code,household_name,mailing_address,thank_you_status,created_at,updated_at'
+      'id,email,first_name,last_name,phone,attending,guest_count,guest_names,dietary_restrictions,notes,household_code,household_name,mailing_address,staying_friday,staying_saturday,thank_you_status,created_at,updated_at'
     )
     .order('created_at', { ascending: true })
 
@@ -57,12 +57,13 @@ export async function GET(request: Request) {
     'attending',
     'guest_count',
     'guest_names',
-    'meal_choice',
     'dietary_restrictions',
     'notes',
-    'invite_code',
+    'household_code',
     'household_name',
     'mailing_address',
+    'staying_friday',
+    'staying_saturday',
     'thank_you_status',
     'created_at',
     'updated_at',

@@ -1,11 +1,9 @@
 import { getGalleryPhotos } from '@/lib/photos'
 import PhotoGrid from '@/components/PhotoGrid'
-import weddingConfig from '@/config/wedding_config.json'
+import Link from 'next/link'
 
 export default function GalleryPage() {
-  // Check if photos are configured in config, otherwise use helper
-  const configPhotos = (weddingConfig as any).photos?.gallery
-  const photos = configPhotos || getGalleryPhotos()
+  const photos = getGalleryPhotos()
 
   return (
     <main className="min-h-screen py-12 px-4">
@@ -15,11 +13,21 @@ export default function GalleryPage() {
             Gallery
           </h1>
           <p className="text-lg text-accent/70 max-w-2xl mx-auto">
-            A collection of moments from our celebration. More photos will be added as we get closer to the big day!
+            Some of our favorite moments together.
           </p>
         </div>
 
-        <PhotoGrid photos={photos} columns={3} />
+        <PhotoGrid photos={photos} />
+
+        <div className="text-center mt-12">
+          <p className="text-accent/60 mb-2">Have photos to share?</p>
+          <Link
+            href="/photos"
+            className="text-primary hover:underline font-semibold"
+          >
+            Upload to the Photo Wall &rarr;
+          </Link>
+        </div>
       </div>
     </main>
   )

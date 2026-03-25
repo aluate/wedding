@@ -8,8 +8,8 @@ const links = [
   { href: '/details', label: 'Details' },
   { href: '/schedule', label: 'Schedule' },
   { href: '/travel', label: 'Travel & Stay' },
-  { href: '/menu', label: 'Menu' },
   { href: '/gallery', label: 'Gallery' },
+  { href: '/photos', label: 'Photo Wall' },
   { href: '/rsvp', label: 'RSVP' },
 ]
 

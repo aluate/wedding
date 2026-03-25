@@ -11,12 +11,13 @@ CREATE TABLE IF NOT EXISTS public.rsvp_submissions (
   attending boolean NOT NULL,
   guest_count integer NOT NULL DEFAULT 0,
   guest_names text,
-  meal_choice text,
   dietary_restrictions text,
   notes text,
-  invite_code text,
+  household_code text,
   household_name text,
   mailing_address text,
+  staying_friday boolean DEFAULT false,
+  staying_saturday boolean DEFAULT false,
   thank_you_status text,
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now(),
@@ -29,10 +30,17 @@ CREATE TABLE IF NOT EXISTS public.rsvp_submissions (
 
 CREATE INDEX IF NOT EXISTS rsvp_submissions_created_at_idx ON public.rsvp_submissions (created_at DESC);
 CREATE INDEX IF NOT EXISTS rsvp_submissions_attending_idx ON public.rsvp_submissions (attending);
+CREATE INDEX IF NOT EXISTS rsvp_submissions_household_code_idx ON public.rsvp_submissions (household_code);
 
 ALTER TABLE public.rsvp_submissions ENABLE ROW LEVEL SECURITY;
 
 COMMENT ON TABLE public.rsvp_submissions IS 'Wedding RSVPs; accessed from Next.js API routes using service role.';
 
--- Headcount (attending guests): 
+-- Headcount (attending guests):
 --   SELECT COALESCE(SUM(guest_count), 0) FROM public.rsvp_submissions WHERE attending = true;
+
+-- Hotel night counts:
+--   SELECT
+--     COUNT(*) FILTER (WHERE staying_friday) AS friday_rooms,
+--     COUNT(*) FILTER (WHERE staying_saturday) AS saturday_rooms
+--   FROM public.rsvp_submissions WHERE attending = true;

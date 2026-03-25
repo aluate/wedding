@@ -1,148 +1,272 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import KanbanBoard from '@/components/KanbanBoard'
 
-// Mock data - in production this would come from an API
-const mockRSVPs = [
-  { id: 1, name: 'John & Jane Doe', status: 'yes', meal: 'beef', updated: '2025-12-01' },
-  { id: 2, name: 'Bob Smith', status: 'yes', meal: 'chicken', updated: '2025-12-02' },
-  { id: 3, name: 'Alice Johnson', status: 'no', meal: null, updated: '2025-12-01' },
-]
+type Rsvp = {
+  id: string
+  first_name: string
+  last_name: string
+  email: string
+  phone: string | null
+  attending: boolean
+  guest_count: number
+  guest_names: string | null
+  dietary_restrictions: string | null
+  notes: string | null
+  household_code: string | null
+  household_name: string | null
+  mailing_address: string | null
+  staying_friday: boolean
+  staying_saturday: boolean
+  thank_you_status: string | null
+  created_at: string
+  updated_at: string
+}
+
+type Summary = {
+  total_responses: number
+  attending_parties: number
+  declined_parties: number
+  total_guests: number
+  friday_hotel: number
+  saturday_hotel: number
+}
 
 export default function AdminPage() {
-  const [selectedView, setSelectedView] = useState<'overview' | 'guests' | 'kanban'>('overview')
+  const [password, setPassword] = useState('')
+  const [authed, setAuthed] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [summary, setSummary] = useState<Summary | null>(null)
+  const [rsvps, setRsvps] = useState<Rsvp[]>([])
+  const [filter, setFilter] = useState<'all' | 'attending' | 'declined'>('all')
 
-  const totalInvited = 50 // Mock
-  const totalYes = mockRSVPs.filter(r => r.status === 'yes').length
-  const totalNo = mockRSVPs.filter(r => r.status === 'no').length
-  const totalPending = totalInvited - totalYes - totalNo
+  async function login(e: React.FormEvent) {
+    e.preventDefault()
+    setLoading(true)
+    setError('')
+    try {
+      const res = await fetch('/api/admin/rsvps', {
+        headers: { Authorization: `Bearer ${password}` },
+      })
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}))
+        setError(j?.error || 'Invalid password or admin not configured.')
+        setLoading(false)
+        return
+      }
+      const data = await res.json()
+      setSummary(data.summary)
+      setRsvps(data.rsvps)
+      setAuthed(true)
+    } catch {
+      setError('Network error.')
+    }
+    setLoading(false)
+  }
+
+  async function refresh() {
+    setLoading(true)
+    try {
+      const res = await fetch('/api/admin/rsvps', {
+        headers: { Authorization: `Bearer ${password}` },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        setSummary(data.summary)
+        setRsvps(data.rsvps)
+      }
+    } catch {}
+    setLoading(false)
+  }
+
+  function exportCsv() {
+    if (!rsvps.length) return
+    const headers = [
+      'first_name', 'last_name', 'email', 'phone', 'attending', 'guest_count',
+      'guest_names', 'dietary_restrictions', 'household_code', 'household_name',
+      'mailing_address', 'staying_friday', 'staying_saturday', 'notes',
+      'thank_you_status', 'created_at', 'updated_at',
+    ]
+    const esc = (v: unknown) => {
+      if (v === null || v === undefined) return ''
+      const s = String(v)
+      return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s
+    }
+    const lines = [
+      headers.join(','),
+      ...rsvps.map((r) => headers.map((h) => esc((r as any)[h])).join(',')),
+    ]
+    const blob = new Blob([lines.join('\r\n')], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `rsvp-export-${new Date().toISOString().slice(0, 10)}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  if (!authed) {
+    return (
+      <main className="min-h-screen py-12 px-4">
+        <div className="max-w-sm mx-auto">
+          <h1 className="font-heading text-3xl mb-6">Admin</h1>
+          <form onSubmit={login} className="space-y-4">
+            <div>
+              <label htmlFor="pw" className="block text-sm font-semibold mb-1">Password</label>
+              <input
+                id="pw"
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-3 py-2 rounded-md border border-accent/20 bg-background focus:outline-none focus:ring-2 focus:ring-primary/80"
+              />
+            </div>
+            {error && <p className="text-sm text-red-600">{error}</p>}
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition disabled:opacity-60"
+            >
+              {loading ? 'Loading...' : 'Sign In'}
+            </button>
+          </form>
+        </div>
+      </main>
+    )
+  }
+
+  const filtered =
+    filter === 'attending' ? rsvps.filter((r) => r.attending) :
+    filter === 'declined' ? rsvps.filter((r) => !r.attending) :
+    rsvps
 
   return (
-    <main className="min-h-screen py-12 px-4 bg-background">
+    <main className="min-h-screen py-8 px-4 bg-background">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <Link href="/" className="text-primary hover:underline">
-            ← Back to Home
-          </Link>
-          <h1 className="font-heading text-5xl mt-4">Admin Dashboard</h1>
-          <p className="mt-2 text-sm text-accent/60 max-w-2xl">
-            Guest numbers below are demo placeholders. Export live RSVPs from Supabase or use{' '}
-            <code className="text-xs bg-accent/10 px-1 rounded">GET /api/rsvp/export</code> when configured.
-          </p>
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="font-heading text-3xl">RSVP Dashboard</h1>
+          <div className="flex gap-2">
+            <button
+              onClick={refresh}
+              disabled={loading}
+              className="px-4 py-2 text-sm border border-accent/20 rounded-lg hover:bg-white transition"
+            >
+              {loading ? 'Loading...' : 'Refresh'}
+            </button>
+            <button
+              onClick={exportCsv}
+              className="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary/90 transition"
+            >
+              Export CSV
+            </button>
+          </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="flex gap-4 mb-8 border-b">
-          <button
-            onClick={() => setSelectedView('overview')}
-            className={`pb-2 px-4 ${selectedView === 'overview' ? 'border-b-2 border-primary font-semibold' : ''}`}
-          >
-            Overview
-          </button>
-          <button
-            onClick={() => setSelectedView('guests')}
-            className={`pb-2 px-4 ${selectedView === 'guests' ? 'border-b-2 border-primary font-semibold' : ''}`}
-          >
-            Guests
-          </button>
-          <button
-            onClick={() => setSelectedView('kanban')}
-            className={`pb-2 px-4 ${selectedView === 'kanban' ? 'border-b-2 border-primary font-semibold' : ''}`}
-          >
-            Task Board
-          </button>
-        </div>
-
-        {/* Overview View */}
-        {selectedView === 'overview' && (
-          <div className="space-y-6">
-            <div className="grid md:grid-cols-4 gap-4">
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <p className="text-accent/70 mb-2">Total Invited</p>
-                <p className="text-3xl font-bold">{totalInvited}</p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <p className="text-accent/70 mb-2">Yes</p>
-                <p className="text-3xl font-bold text-green-600">{totalYes}</p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <p className="text-accent/70 mb-2">No</p>
-                <p className="text-3xl font-bold text-red-600">{totalNo}</p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <p className="text-accent/70 mb-2">Pending</p>
-                <p className="text-3xl font-bold text-yellow-600">{totalPending}</p>
-              </div>
+        {/* Summary cards */}
+        {summary && (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+            <div className="bg-white p-4 rounded-lg shadow-sm text-center">
+              <p className="text-2xl font-bold">{summary.total_responses}</p>
+              <p className="text-xs text-accent/60">Responses</p>
             </div>
+            <div className="bg-white p-4 rounded-lg shadow-sm text-center">
+              <p className="text-2xl font-bold text-green-600">{summary.attending_parties}</p>
+              <p className="text-xs text-accent/60">Attending</p>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-sm text-center">
+              <p className="text-2xl font-bold text-red-500">{summary.declined_parties}</p>
+              <p className="text-xs text-accent/60">Declined</p>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-sm text-center">
+              <p className="text-2xl font-bold text-primary">{summary.total_guests}</p>
+              <p className="text-xs text-accent/60">Total Heads</p>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-sm text-center">
+              <p className="text-2xl font-bold">{summary.friday_hotel}</p>
+              <p className="text-xs text-accent/60">Fri Rooms</p>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-sm text-center">
+              <p className="text-2xl font-bold">{summary.saturday_hotel}</p>
+              <p className="text-xs text-accent/60">Sat Rooms</p>
+            </div>
+          </div>
+        )}
 
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h2 className="font-heading text-2xl mb-4">Recent RSVPs</h2>
-              <div className="space-y-2">
-                {mockRSVPs.map((rsvp) => (
-                  <div key={rsvp.id} className="flex justify-between items-center py-2 border-b">
-                    <span>{rsvp.name}</span>
-                    <span className={`px-3 py-1 rounded ${
-                      rsvp.status === 'yes' ? 'bg-green-100 text-green-800' :
-                      rsvp.status === 'no' ? 'bg-red-100 text-red-800' :
-                      'bg-yellow-100 text-yellow-800'
+        {/* Filter tabs */}
+        <div className="flex gap-2 mb-4">
+          {(['all', 'attending', 'declined'] as const).map((f) => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`px-4 py-1.5 text-sm rounded-full transition ${
+                filter === f
+                  ? 'bg-primary text-white'
+                  : 'bg-white border border-accent/20 text-accent/70 hover:bg-accent/5'
+              }`}
+            >
+              {f === 'all' ? `All (${rsvps.length})` :
+               f === 'attending' ? `Attending (${rsvps.filter(r => r.attending).length})` :
+               `Declined (${rsvps.filter(r => !r.attending).length})`}
+            </button>
+          ))}
+        </div>
+
+        {/* Table */}
+        <div className="bg-white rounded-lg shadow-sm overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b bg-accent/5">
+                <th className="text-left p-3">Name</th>
+                <th className="text-left p-3">Code</th>
+                <th className="text-left p-3">Email</th>
+                <th className="text-center p-3">Status</th>
+                <th className="text-center p-3">Guests</th>
+                <th className="text-center p-3">Fri</th>
+                <th className="text-center p-3">Sat</th>
+                <th className="text-left p-3">Dietary</th>
+                <th className="text-left p-3">Updated</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((r) => (
+                <tr key={r.id} className="border-b hover:bg-accent/5 transition">
+                  <td className="p-3 font-medium whitespace-nowrap">
+                    {r.first_name} {r.last_name}
+                    {r.guest_names && (
+                      <p className="text-xs text-accent/60 font-normal">{r.guest_names}</p>
+                    )}
+                  </td>
+                  <td className="p-3 font-mono text-xs text-accent/70">{r.household_code || '—'}</td>
+                  <td className="p-3 text-accent/70">{r.email}</td>
+                  <td className="p-3 text-center">
+                    <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold ${
+                      r.attending ? 'bg-green-100 text-green-700' : 'bg-red-50 text-red-600'
                     }`}>
-                      {rsvp.status}
+                      {r.attending ? 'Yes' : 'No'}
                     </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Guests View */}
-        {selectedView === 'guests' && (
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h2 className="font-heading text-2xl mb-4">All Guests</h2>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left p-2">Name</th>
-                    <th className="text-left p-2">Status</th>
-                    <th className="text-left p-2">Meal</th>
-                    <th className="text-left p-2">Updated</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {mockRSVPs.map((rsvp) => (
-                    <tr key={rsvp.id} className="border-b">
-                      <td className="p-2">{rsvp.name}</td>
-                      <td className="p-2">{rsvp.status}</td>
-                      <td className="p-2">{rsvp.meal || '-'}</td>
-                      <td className="p-2">{rsvp.updated}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-
-        {/* Kanban View */}
-        {selectedView === 'kanban' && (
-          <div>
-            <div className="mb-6">
-              <h2 className="font-heading text-2xl mb-2">Wedding Task Board</h2>
-              <p className="text-accent/70">
-                Kanban board for managing wedding tasks (similar to CateredByMe swim lanes)
-              </p>
-              <p className="text-sm text-accent/70 mt-2">
-                Drag and drop tasks between columns to update their status
-              </p>
-            </div>
-            <KanbanBoard />
-          </div>
-        )}
+                  </td>
+                  <td className="p-3 text-center">{r.guest_count}</td>
+                  <td className="p-3 text-center">{r.staying_friday ? '✓' : ''}</td>
+                  <td className="p-3 text-center">{r.staying_saturday ? '✓' : ''}</td>
+                  <td className="p-3 text-accent/70 max-w-[150px] truncate">{r.dietary_restrictions || ''}</td>
+                  <td className="p-3 text-xs text-accent/60 whitespace-nowrap">
+                    {new Date(r.updated_at).toLocaleDateString()}
+                  </td>
+                </tr>
+              ))}
+              {filtered.length === 0 && (
+                <tr>
+                  <td colSpan={9} className="p-8 text-center text-accent/50">
+                    No RSVPs yet.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </main>
   )
 }
-

@@ -155,15 +155,7 @@
         "name": "Spokane International Airport",
         "city": "Spokane",
         "state": "WA",
-        "notes": "This is the main airport to use for out-of-town guests."
-      },
-      {
-        "id": "gcn",
-        "code": "COE",
-        "name": "Coeur d'Alene Airport (general aviation)",
-        "city": "Hayden",
-        "state": "ID",
-        "notes": "General aviation only. Use GEG for commercial flights."
+        "notes": "The closest commercial airport. About 45 minutes to the venue. Rental cars available at the terminal."
       }
     ],
     "driving": {

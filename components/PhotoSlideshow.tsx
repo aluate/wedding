@@ -55,12 +55,12 @@ export default function PhotoSlideshow({
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden shadow-lg">
+      <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden shadow-lg bg-accent/5">
         <Image
           src={photos[currentIndex].src}
           alt={photos[currentIndex].alt}
           fill
-          className="object-cover"
+          className="object-contain"
           priority={currentIndex === 0}
           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 90vw, 80vw"
         />

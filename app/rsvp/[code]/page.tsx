@@ -1,12 +1,13 @@
 import { redirect } from 'next/navigation'
 
 /**
- * QR / per-invite links: /rsvp/{code} → /rsvp?invite={code}
+ * QR / per-household links: /rsvp/{code} → /rsvp?code={code}
+ * e.g. /rsvp/smith3456 → /rsvp?code=smith3456
  */
-export default function RSVPInviteRedirectPage({ params }: { params: { code: string } }) {
+export default function RSVPCodeRedirectPage({ params }: { params: { code: string } }) {
   const code = params.code?.trim()
   if (!code) {
     redirect('/rsvp')
   }
-  redirect(`/rsvp?invite=${encodeURIComponent(code)}`)
+  redirect(`/rsvp?code=${encodeURIComponent(code)}`)
 }
