@@ -1,10 +1,12 @@
-{
+﻿{
   "site": {
     "slug": "solstice-of-26",
     "title": "Brit & Karl — Solstice of '26",
     "tagline": "A Solstice Weekend at Coeur d'Alene Casino",
     "primaryDomain": "https://britandkarl.com",
-    "supportEmail": "hello@britandkarl.com"
+    "supportEmail": "karlvaage94@gmail.com",
+    "supportPhone": "208-827-0034",
+    "currentEventKey": "wedding-2026"
   },
   "couple": {
     "brideFirstName": "Brit",
@@ -217,7 +219,10 @@
     "email": {
       "enabled": true,
       "sendOnRsvpSubmit": true,
-      "sendReminderDaysBefore": [30, 7],
+      "sendReminderDaysBefore": [
+        30,
+        7
+      ],
       "sendDayBeforeReminder": true
     },
     "sms": {
@@ -233,7 +238,10 @@
     "adminAlerts": {
       "onNewRsvp": true,
       "onRsvpChange": true,
-      "adminEmails": ["karl@example.com", "brit@example.com"]
+      "adminEmails": [
+        "karl@example.com",
+        "brit@example.com"
+      ]
     }
   },
   "branding": {
@@ -290,4 +298,3 @@
     }
   }
 }
-

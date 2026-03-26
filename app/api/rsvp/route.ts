@@ -1,3 +1,4 @@
+﻿import weddingConfig from '@/config/wedding_config.json'
 import { getSupabaseAdmin } from '@/lib/supabase/admin'
 import { normalizeEmail, validateRsvpPayload } from '@/lib/rsvp/validate'
 import { serverErrorResponse, successResponse, validationErrorResponse } from '@/lib/api-helpers'
@@ -28,12 +29,13 @@ export async function POST(request: Request) {
     const msg = e instanceof Error ? e.message : 'Server configuration error'
     console.error('[rsvp] config', msg)
     return serverErrorResponse(
-      'RSVP is not fully configured yet. Please try again later or email hello@britandkarl.com.'
+      `RSVP is not fully configured yet. Please try again later or email ${weddingConfig.site.supportEmail}.`
     )
   }
 
   const { error } = await supabase.from('rsvp_submissions').upsert(
     {
+      event_key: data.event_key,
       email: data.email,
       email_normalized,
       first_name: data.first_name,
@@ -51,7 +53,7 @@ export async function POST(request: Request) {
       staying_saturday: data.staying_saturday,
       updated_at: now,
     },
-    { onConflict: 'email_normalized' }
+    { onConflict: 'event_key,email_normalized' }
   )
 
   if (error) {
@@ -59,5 +61,5 @@ export async function POST(request: Request) {
     return serverErrorResponse('Could not save your RSVP. Please try again in a moment.')
   }
 
-  return successResponse({ saved: true, email_normalized })
+  return successResponse({ saved: true, event_key: data.event_key, email_normalized })
 }

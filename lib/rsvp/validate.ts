@@ -1,4 +1,5 @@
-export type RsvpPayload = {
+﻿export type RsvpPayload = {
+  event_key: string
   first_name: string
   last_name: string
   email: string
@@ -25,12 +26,22 @@ export function normalizeHouseholdCode(code: string): string {
   return code.trim().toLowerCase().replace(/\s+/g, '')
 }
 
+export function normalizeEventKey(key: string): string {
+  return key.trim().toLowerCase().replace(/\s+/g, '-')
+}
+
 export function validateRsvpPayload(raw: unknown): { ok: true; data: RsvpPayload } | { ok: false; message: string } {
   if (!raw || typeof raw !== 'object') {
     return { ok: false, message: 'Invalid JSON body' }
   }
 
   const o = raw as Record<string, unknown>
+
+  const event_key_raw = typeof o.event_key === 'string' ? o.event_key.trim() : ''
+  if (!event_key_raw) {
+    return { ok: false, message: 'Event key is missing. Please refresh and try again.' }
+  }
+  const event_key = normalizeEventKey(event_key_raw)
 
   const first_name = typeof o.first_name === 'string' ? o.first_name.trim() : ''
   const last_name = typeof o.last_name === 'string' ? o.last_name.trim() : ''
@@ -97,6 +108,7 @@ export function validateRsvpPayload(raw: unknown): { ok: true; data: RsvpPayload
   return {
     ok: true,
     data: {
+      event_key,
       first_name,
       last_name,
       email,

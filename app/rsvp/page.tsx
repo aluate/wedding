@@ -1,4 +1,5 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
+import weddingConfig from '@/config/wedding_config.json'
 import { RsvpForm } from './rsvp-form'
 
 export const metadata: Metadata = {
@@ -12,6 +13,7 @@ export default function RSVPIndexPage({
   searchParams: { code?: string }
 }) {
   const code = searchParams.code?.trim() || undefined
+  const supportPhoneHref = `+1${weddingConfig.site.supportPhone.replace(/\D/g, '')}`
 
   return (
     <main className="min-h-screen py-12 px-4">
@@ -25,15 +27,12 @@ export default function RSVPIndexPage({
           <p className="font-semibold mb-2 text-accent">Questions?</p>
           <p className="text-accent/70">
             Email{' '}
-            <a
-              href="mailto:karlvaage94@gmail.com"
-              className="text-primary hover:underline font-semibold"
-            >
-              karlvaage94@gmail.com
+            <a href={`mailto:${weddingConfig.site.supportEmail}`} className="text-primary hover:underline font-semibold">
+              {weddingConfig.site.supportEmail}
             </a>{' '}
             or call/text{' '}
-            <a href="tel:+12088270034" className="text-primary hover:underline font-semibold">
-              (208) 827-0034
+            <a href={`tel:${supportPhoneHref}`} className="text-primary hover:underline font-semibold">
+              {weddingConfig.site.supportPhone}
             </a>
             .
           </p>

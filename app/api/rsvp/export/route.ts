@@ -1,4 +1,4 @@
-import { getSupabaseAdmin } from '@/lib/supabase/admin'
+﻿import { getSupabaseAdmin } from '@/lib/supabase/admin'
 import { errorResponse, serverErrorResponse } from '@/lib/api-helpers'
 
 export const runtime = 'nodejs'
@@ -13,7 +13,7 @@ function csvEscape(value: string | number | boolean | null | undefined): string 
 /**
  * GET /api/rsvp/export
  * Authorization: Bearer <RSVP_EXPORT_SECRET>
- * Returns CSV of all RSVP rows (for spreadsheets / email tools).
+ * Optional: ?event_key=<event>
  */
 export async function GET(request: Request) {
   const secret = process.env.RSVP_EXPORT_SECRET
@@ -35,12 +35,21 @@ export async function GET(request: Request) {
     return serverErrorResponse('Supabase is not configured')
   }
 
-  const { data, error } = await supabase
+  const url = new URL(request.url)
+  const eventKey = url.searchParams.get('event_key')?.trim() || null
+
+  let query = supabase
     .from('rsvp_submissions')
     .select(
-      'id,email,first_name,last_name,phone,attending,guest_count,guest_names,dietary_restrictions,notes,household_code,household_name,mailing_address,staying_friday,staying_saturday,thank_you_status,created_at,updated_at'
+      'id,event_key,email,first_name,last_name,phone,attending,guest_count,guest_names,dietary_restrictions,notes,household_code,household_name,mailing_address,staying_friday,staying_saturday,thank_you_status,created_at,updated_at'
     )
     .order('created_at', { ascending: true })
+
+  if (eventKey) {
+    query = query.eq('event_key', eventKey)
+  }
+
+  const { data, error } = await query
 
   if (error) {
     console.error('[rsvp/export] select', error)
@@ -50,6 +59,7 @@ export async function GET(request: Request) {
   const rows = data ?? []
   const headers = [
     'id',
+    'event_key',
     'email',
     'first_name',
     'last_name',
