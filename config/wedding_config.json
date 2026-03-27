@@ -182,6 +182,27 @@
       }
     ]
   },
+  "hotelRoomBlock": {
+    "venueLabel": "Coeur d'Alene Casino Resort Hotel",
+    "notes": "Placeholder counts — replace with final contracted numbers from the hotel.",
+    "roomTypes": [
+      {
+        "id": "double-queen",
+        "name": "Double Queen",
+        "roomsHeldInBlock": 12
+      },
+      {
+        "id": "king",
+        "name": "King",
+        "roomsHeldInBlock": 10
+      },
+      {
+        "id": "suite-or-accessible",
+        "name": "Suite / accessible (TBD)",
+        "roomsHeldInBlock": 2
+      }
+    ]
+  },
   "travel": {
     "airports": [
       {
@@ -206,7 +227,7 @@
     "rideshareNotes": "Uber and Lyft are available in the area, but allow extra time since this is a resort property."
   },
   "rsvp": {
-    "requiresHouseholdCode": true,
+    "requiresHouseholdCode": false,
     "allowLookupByNameAndEmail": false,
     "allowPlusOnes": "by_invitation_only",
     "allowChildren": "limited_family_only",

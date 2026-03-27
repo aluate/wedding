@@ -1,4 +1,4 @@
-﻿import { getSupabaseAdmin } from '@/lib/supabase/admin'
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 import { errorResponse, serverErrorResponse } from '@/lib/api-helpers'
 import { NextResponse } from 'next/server'
 
@@ -9,6 +9,7 @@ type Row = {
   guest_count: number | null
   staying_friday: boolean | null
   staying_saturday: boolean | null
+  hotel_rooms: number | null
   event_key: string | null
 }
 
@@ -60,12 +61,24 @@ export async function GET(request: Request) {
   const attending = rows.filter((r) => r.attending === true)
   const declined = rows.filter((r) => r.attending === false)
 
+  const rooms = (r: Row) => (typeof r.hotel_rooms === 'number' && r.hotel_rooms > 0 ? r.hotel_rooms : 0)
+
   const summary = {
     total_responses: rows.length,
     attending_parties: attending.length,
     declined_parties: declined.length,
     total_guests: attending.reduce((sum, r) => sum + (r.guest_count || 0), 0),
+    /** Attending parties who checked Friday night */
+    parties_staying_friday: attending.filter((r) => r.staying_friday).length,
+    /** Attending parties who checked Saturday night */
+    parties_staying_saturday: attending.filter((r) => r.staying_saturday).length,
+    /** Sum of reported guest rooms in the block (RSVPs with a number > 0) */
+    total_rooms_reported: attending.reduce((sum, r) => sum + rooms(r), 0),
+    /** How many attending RSVPs included a room count */
+    rsvps_with_room_count: attending.filter((r) => rooms(r) > 0).length,
+    /** @deprecated same as parties_staying_friday — kept for older admin clients */
     friday_hotel: attending.filter((r) => r.staying_friday).length,
+    /** @deprecated same as parties_staying_saturday */
     saturday_hotel: attending.filter((r) => r.staying_saturday).length,
   }
 

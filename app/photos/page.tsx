@@ -1,13 +1,19 @@
 'use client'
 
+import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
-import Image from 'next/image'
+import weddingConfig from '@/config/wedding_config.json'
+import { GuestPhotoSlideshow } from '@/components/GuestPhotoSlideshow'
+
+const PHOTO_EVENT_KEY = weddingConfig.site.currentEventKey || 'wedding-2026'
 
 type GuestPhoto = {
+  id?: string
   filename: string
   url: string
   uploader_name: string | null
   caption: string | null
+  event_key?: string | null
   created_at: string
 }
 
@@ -22,7 +28,7 @@ export default function PhotosPage() {
 
   const loadPhotos = useCallback(async () => {
     try {
-      const res = await fetch('/api/photos')
+      const res = await fetch(`/api/photos?event_key=${encodeURIComponent(PHOTO_EVENT_KEY)}`)
       if (res.ok) {
         const data = await res.json()
         setPhotos(data.photos || [])
@@ -39,22 +45,31 @@ export default function PhotosPage() {
     e.preventDefault()
     const form = e.target as HTMLFormElement
     const fileInput = form.querySelector('input[type="file"]') as HTMLInputElement
-    const file = fileInput?.files?.[0]
-    if (!file) return
+    const files = fileInput?.files ? Array.from(fileInput.files) : []
+    if (files.length === 0) return
 
     setUploading(true)
     setMessage('')
 
     const fd = new FormData()
-    fd.append('file', file)
+    for (const f of files) {
+      fd.append('files', f)
+    }
     fd.append('name', uploadName.trim() || 'Anonymous')
     if (uploadCaption.trim()) fd.append('caption', uploadCaption.trim())
 
     try {
       const res = await fetch('/api/photos', { method: 'POST', body: fd })
       const json = await res.json().catch(() => ({}))
+      const data = json?.data ?? json
       if (res.ok) {
-        setMessage('Photo uploaded!')
+        const up = typeof data?.uploaded === 'number' ? data.uploaded : 1
+        const fail = typeof data?.failed === 'number' ? data.failed : 0
+        setMessage(
+          fail > 0
+            ? `Uploaded ${up} photo(s). ${fail} failed — check file size/type.`
+            : `Uploaded ${up} photo${up === 1 ? '' : 's'}!`
+        )
         setUploadName('')
         setUploadCaption('')
         fileInput.value = ''
@@ -80,6 +95,17 @@ export default function PhotosPage() {
             everyone to enjoy.
           </p>
           <p className="text-sm text-accent/50 mt-1">#SolsticeOf26</p>
+          <p className="mt-4">
+            <Link
+              href="/photos/live"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-white font-semibold hover:bg-accent/90 transition text-sm"
+            >
+              Open live slideshow (reception screen)
+            </Link>
+          </p>
+          <p className="text-xs text-accent/50 mt-2 max-w-md mx-auto">
+            Auto-rotating slides + checks for new uploads every few seconds — works great on a projector.
+          </p>
         </div>
 
         {/* Upload form */}
@@ -88,16 +114,19 @@ export default function PhotosPage() {
           <form onSubmit={handleUpload} className="space-y-3">
             <div>
               <label htmlFor="photo_file" className="block text-sm font-semibold mb-1">
-                Photo <span className="text-red-600">*</span>
+                Photos <span className="text-red-600">*</span>
               </label>
               <input
                 id="photo_file"
                 type="file"
                 accept="image/*"
+                multiple
                 required
                 className="w-full text-sm text-accent/70 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-primary file:text-white file:font-semibold file:cursor-pointer hover:file:bg-primary/90"
               />
-              <p className="text-xs text-accent/50 mt-1">Max 10MB. JPG, PNG, HEIC.</p>
+              <p className="text-xs text-accent/50 mt-1">
+                Select multiple at once (up to 30 per batch). Max 10MB each. JPG, PNG, HEIC.
+              </p>
             </div>
             <div>
               <label htmlFor="upload_name" className="block text-sm font-semibold mb-1">
@@ -135,7 +164,7 @@ export default function PhotosPage() {
               disabled={uploading}
               className="w-full px-6 py-2.5 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition disabled:opacity-60"
             >
-              {uploading ? 'Uploading...' : 'Upload Photo'}
+              {uploading ? 'Uploading...' : 'Upload'}
             </button>
           </form>
         </div>
@@ -149,10 +178,17 @@ export default function PhotosPage() {
             <p className="text-sm">Upload a photo above to get the wall started.</p>
           </div>
         ) : (
-          <div className="columns-2 md:columns-3 gap-3 space-y-3">
+          <>
+            <div className="mb-10 max-w-4xl mx-auto">
+              <h2 className="font-heading text-xl mb-3 text-center">Slideshow preview</h2>
+              <div className="rounded-xl overflow-hidden bg-black/90 p-4 md:p-6">
+                <GuestPhotoSlideshow photos={photos} intervalMs={5000} jumpToNewestWhenFirstChanges />
+              </div>
+            </div>
+            <div className="columns-2 md:columns-3 gap-3 space-y-3">
             {photos.map((photo) => (
               <div
-                key={photo.filename}
+                key={photo.id || photo.filename}
                 className="break-inside-avoid rounded-lg overflow-hidden shadow-sm hover:shadow-md transition cursor-pointer bg-white"
                 onClick={() => setSelectedPhoto(photo)}
               >
@@ -173,6 +209,7 @@ export default function PhotosPage() {
               </div>
             ))}
           </div>
+          </>
         )}
 
         {/* Lightbox */}

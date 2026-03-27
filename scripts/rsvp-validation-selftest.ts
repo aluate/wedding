@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Offline validation tests for RSVP payload parsing (no Supabase required).
  * Run: npm run verify-rsvp
  */
@@ -19,7 +19,6 @@ function run() {
 
   const base = {
     event_key: 'wedding-2026',
-    household_code: 'smith5678',
     first_name: 'A',
     last_name: 'B',
     email: 'a@b.co',
@@ -35,9 +34,15 @@ function run() {
   assert('no path coerces guest_count to 0', noCoerce.ok === true && noCoerce.ok && noCoerce.data.guest_count === 0)
 
   assert('bad email rejected', validateRsvpPayload({ ...base, email: 'not-an-email', attending: true, guest_count: 1 }).ok === false)
-  assert('missing attending rejected', validateRsvpPayload({ ...base, guest_count: 1 }).ok === false)
+  assert('missing attending rejected', validateRsvpPayload({ ...base, guest_count: 5 }).ok === false)
   assert('missing event key rejected', validateRsvpPayload({ ...base, event_key: '', attending: true, guest_count: 1 }).ok === false)
-  assert('missing household code rejected', validateRsvpPayload({ ...base, household_code: '', attending: true, guest_count: 1 }).ok === false)
+  assert(
+    'household_code is always null (not collected)',
+    (() => {
+      const r = validateRsvpPayload({ ...base, attending: true, guest_count: 1, household_code: 'hacker' })
+      return r.ok && r.data.household_code === null
+    })()
+  )
   assert('yes with guest_count 0 rejected', validateRsvpPayload({ ...base, attending: true, guest_count: 0 }).ok === false)
 
   assert('normalizeEmail lowercases', normalizeEmail(' Test@EXAMPLE.com ') === 'test@example.com')

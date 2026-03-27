@@ -1,4 +1,4 @@
-﻿import { getSupabaseAdmin } from '@/lib/supabase/admin'
+import { getSupabaseAdmin } from '@/lib/supabase/admin'
 import { errorResponse, serverErrorResponse } from '@/lib/api-helpers'
 
 export const runtime = 'nodejs'
@@ -41,7 +41,7 @@ export async function GET(request: Request) {
   let query = supabase
     .from('rsvp_submissions')
     .select(
-      'id,event_key,email,first_name,last_name,phone,attending,guest_count,guest_names,dietary_restrictions,notes,household_code,household_name,mailing_address,staying_friday,staying_saturday,thank_you_status,created_at,updated_at'
+      'id,event_key,email,first_name,last_name,phone,attending,guest_count,guest_names,dietary_restrictions,notes,household_name,mailing_address,staying_friday,staying_saturday,hotel_rooms,thank_you_status,created_at,updated_at'
     )
     .order('created_at', { ascending: true })
 
@@ -69,11 +69,11 @@ export async function GET(request: Request) {
     'guest_names',
     'dietary_restrictions',
     'notes',
-    'household_code',
     'household_name',
     'mailing_address',
     'staying_friday',
     'staying_saturday',
+    'hotel_rooms',
     'thank_you_status',
     'created_at',
     'updated_at',
