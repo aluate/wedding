@@ -1,4 +1,4 @@
-﻿import weddingConfig from '@/config/wedding_config.json'
+import weddingConfig from '@/config/wedding_config.json'
 import { getSupabaseAdmin } from '@/lib/supabase/admin'
 import { normalizeEmail, validateRsvpPayload } from '@/lib/rsvp/validate'
 import { serverErrorResponse, successResponse, validationErrorResponse } from '@/lib/api-helpers'
@@ -33,28 +33,52 @@ export async function POST(request: Request) {
     )
   }
 
-  const { error } = await supabase.from('rsvp_submissions').upsert(
-    {
-      event_key: data.event_key,
-      email: data.email,
-      email_normalized,
-      first_name: data.first_name,
-      last_name: data.last_name,
-      phone: data.phone,
-      attending: data.attending,
-      guest_count: data.guest_count,
-      guest_names: data.guest_names,
-      dietary_restrictions: data.dietary_restrictions,
-      notes: data.notes,
-      household_code: data.household_code,
-      household_name: data.household_name,
-      mailing_address: data.mailing_address,
-      staying_friday: data.staying_friday,
-      staying_saturday: data.staying_saturday,
-      updated_at: now,
-    },
-    { onConflict: 'event_key,email_normalized' }
-  )
+  const row = {
+    event_key: data.event_key,
+    email: data.email,
+    email_normalized,
+    first_name: data.first_name,
+    last_name: data.last_name,
+    phone: data.phone,
+    attending: data.attending,
+    guest_count: data.guest_count,
+    guest_names: data.guest_names,
+    dietary_restrictions: data.dietary_restrictions,
+    notes: data.notes,
+    household_code: data.household_code,
+    household_name: data.household_name,
+    mailing_address: data.mailing_address,
+    staying_friday: data.staying_friday,
+    staying_saturday: data.staying_saturday,
+    updated_at: now,
+  }
+
+  let { error } = await supabase
+    .from('rsvp_submissions')
+    .upsert(row, { onConflict: 'event_key,email_normalized' })
+
+  if (error) {
+    // Backward compatibility: older production schemas may still use
+    // email_normalized uniqueness and/or may not yet have event_key.
+    const message = String((error as { message?: string }).message || '')
+    const hasConflictMismatch = message.includes('no unique or exclusion constraint')
+    const missingEventKey = message.includes('event_key')
+
+    if (hasConflictMismatch || missingEventKey) {
+      const legacyRow = missingEventKey
+        ? {
+            ...row,
+            // Remove event_key for legacy tables that predate multi-event support.
+            event_key: undefined,
+          }
+        : row
+
+      const retry = await supabase
+        .from('rsvp_submissions')
+        .upsert(legacyRow, { onConflict: 'email_normalized' })
+      error = retry.error
+    }
+  }
 
   if (error) {
     console.error('[rsvp] supabase', error)
