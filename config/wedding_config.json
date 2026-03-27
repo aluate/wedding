@@ -1,4 +1,4 @@
-﻿{
+{
   "site": {
     "slug": "solstice-of-26",
     "title": "Brit & Karl — Solstice of '26",
@@ -19,6 +19,28 @@
     "timezone": "America/Los_Angeles",
     "primaryVenueId": "cda-casino",
     "events": [
+      {
+        "id": "rehearsal-dinner",
+        "name": "Rehearsal Dinner (Wedding Party)",
+        "type": "gathering",
+        "date": "2026-06-19",
+        "startTime": "18:00",
+        "endTime": "19:30",
+        "locationId": "cda-casino-main",
+        "showOnPublicTimeline": true,
+        "description": "Wedding party and immediate family rehearsal dinner the night before."
+      },
+      {
+        "id": "welcome-party",
+        "name": "Welcome Party",
+        "type": "gathering",
+        "date": "2026-06-19",
+        "startTime": "19:30",
+        "endTime": "23:00",
+        "locationId": "cda-casino-main",
+        "showOnPublicTimeline": true,
+        "description": "After rehearsal, everyone is welcome to join us for a casual kickoff party. Drinks are available for purchase (not hosted)."
+      },
       {
         "id": "doors-open",
         "name": "Doors Open",
@@ -73,6 +95,17 @@
         "locationId": "cda-casino-reception",
         "showOnPublicTimeline": true,
         "description": "Dancing, drinks, casino runs, and bad decisions encouraged (within reason)."
+      },
+      {
+        "id": "sendoff-brunch",
+        "name": "Send-off Brunch",
+        "type": "gathering",
+        "date": "2026-06-21",
+        "startTime": "10:00",
+        "endTime": "12:00",
+        "locationId": "cda-casino-main",
+        "showOnPublicTimeline": true,
+        "description": "We will have tables set aside Sunday morning for a send-off brunch. Food and drinks at brunch are available for purchase (not hosted)."
       }
     ]
   },
@@ -266,27 +299,27 @@
     {
       "id": "kids",
       "question": "Are kids invited?",
-      "answer": "We love your kids, but this will be an adults-focused evening. A small number of family kids will be there; if you have questions about bringing children, please reach out to us directly."
+      "answer": "Yes, kids are welcome. Just a heads up that this is a full weekend at a casino resort, so please plan accordingly for your family."
     },
     {
       "id": "gifts",
       "question": "Do you have a registry?",
-      "answer": "Your presence means the most to us. For those who have asked, we'll share a small registry and a honeymoon fund link on this site closer to the date."
+      "answer": "Yes — we will have a registry. Placeholder link for now: https://example.com/registry (we will replace this with the real link soon)."
     },
     {
       "id": "photos",
       "question": "Can I take photos and post on social media?",
-      "answer": "We'd love for you to be present during the ceremony, so we're planning for an unplugged ceremony. After that, please take and share photos freely using our hashtag #SolsticeOf26."
+      "answer": "Please take and share photos however you like, and upload your best shots to our site photo wall so everyone can see them."
     },
     {
       "id": "casino",
       "question": "Can we gamble at the Casino?",
-      "answer": "Absolutely. Just don't miss the ceremony or the first dance! Please gamble responsibly."
+      "answer": "Absolutely. We also recommend checking out the resort amenities like golf and spa treatments and booking in advance if you want to use them."
     },
     {
       "id": "travel",
       "question": "What's the best way to get there?",
-      "answer": "Fly into Spokane International Airport (GEG), rent a car, and drive to the Coeur d'Alene Casino Resort Hotel in Worley, ID. Parking is free on site."
+      "answer": "Best option is flying into Spokane (GEG), renting a car, and driving to the casino. We may be able to coordinate limited shuttle options from GEG if enough guests are interested — reach out to us directly if you'd use that."
     }
   ],
   "fun": {
