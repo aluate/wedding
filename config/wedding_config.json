@@ -37,9 +37,9 @@
         "date": "2026-06-19",
         "startTime": "17:30",
         "endTime": "19:00",
-        "locationId": "cda-casino-main",
+        "locationId": "cda-casino-chinook",
         "showOnPublicTimeline": true,
-        "description": "A seated dinner for the wedding party and their spouses. If you're not in the wedding party, we'll see you at the welcome party afterward!"
+        "description": "Dinner at Chinook Steakhouse, the resort's steakhouse on the casino floor. Seating is for the wedding party and their spouses. If you're not in the wedding party, we'll see you at the welcome party afterward!"
       },
       {
         "id": "welcome-party",
@@ -161,6 +161,12 @@
         "name": "Resort Main Entrance",
         "description": "Main hotel & casino entrance. Follow signs to the event center or ask the front desk for our wedding.",
         "isDefaultArrival": true
+      },
+      {
+        "id": "cda-casino-chinook",
+        "name": "Chinook Steakhouse",
+        "description": "On-site steakhouse at the Coeur d'Alene Casino Resort Hotel. Ask the front desk for directions from the lobby.",
+        "isDefaultArrival": false
       },
       {
         "id": "cda-casino-ceremony",
