@@ -143,3 +143,25 @@ export function validateRsvpPayload(raw: unknown): { ok: true; data: RsvpPayload
     },
   }
 }
+
+/**
+ * Admin-only: same fields as a normal RSVP POST, plus `id` (row uuid).
+ */
+export function validateAdminRsvpUpdate(
+  raw: unknown
+): { ok: true; id: string; data: RsvpPayload } | { ok: false; message: string } {
+  if (!raw || typeof raw !== 'object') {
+    return { ok: false, message: 'Invalid JSON body' }
+  }
+  const o = raw as Record<string, unknown>
+  const id = typeof o.id === 'string' ? o.id.trim() : ''
+  if (!id) {
+    return { ok: false, message: 'RSVP id is required' }
+  }
+  const { id: _drop, ...rest } = o
+  const parsed = validateRsvpPayload(rest)
+  if (!parsed.ok) {
+    return parsed
+  }
+  return { ok: true, id, data: parsed.data }
+}

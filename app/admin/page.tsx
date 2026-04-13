@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import weddingConfig from '@/config/wedding_config.json'
+import { AdminRsvpEditModal } from '@/components/AdminRsvpEditModal'
 
 type Rsvp = {
   id: string
@@ -81,6 +82,7 @@ export default function AdminPage() {
   const [photoEventFilter, setPhotoEventFilter] = useState<string>('all')
   const [photoLoading, setPhotoLoading] = useState(false)
   const [photoError, setPhotoError] = useState('')
+  const [editingRsvp, setEditingRsvp] = useState<Rsvp | null>(null)
 
   async function loadData(selectedEvent: string) {
     const qs = selectedEvent && selectedEvent !== 'all' ? `?event_key=${encodeURIComponent(selectedEvent)}` : ''
@@ -384,6 +386,7 @@ export default function AdminPage() {
                 <th className="text-center p-3">Sat</th>
                 <th className="text-center p-3">Rooms</th>
                 <th className="text-left p-3">Updated</th>
+                <th className="text-right p-3">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -398,14 +401,34 @@ export default function AdminPage() {
                   <td className="p-3 text-center">{r.staying_saturday ? '✓' : ''}</td>
                   <td className="p-3 text-center tabular-nums">{r.hotel_rooms != null && r.hotel_rooms > 0 ? r.hotel_rooms : '—'}</td>
                   <td className="p-3 text-xs text-accent/60 whitespace-nowrap">{new Date(r.updated_at).toLocaleDateString()}</td>
+                  <td className="p-3 text-right">
+                    <button
+                      type="button"
+                      onClick={() => setEditingRsvp(r)}
+                      className="text-sm font-semibold text-primary hover:underline"
+                    >
+                      Edit
+                    </button>
+                  </td>
                 </tr>
               ))}
               {filtered.length === 0 && (
-                <tr><td colSpan={9} className="p-8 text-center text-accent/50">No RSVPs yet for this event filter.</td></tr>
+                <tr><td colSpan={10} className="p-8 text-center text-accent/50">No RSVPs yet for this event filter.</td></tr>
               )}
             </tbody>
           </table>
         </div>
+
+        {editingRsvp && (
+          <AdminRsvpEditModal
+            rsvp={editingRsvp}
+            password={password}
+            defaultEventKey={DEFAULT_EVENT}
+            eventKeyOptions={eventKeys}
+            onClose={() => setEditingRsvp(null)}
+            onSaved={() => void refresh()}
+          />
+        )}
           </>
         )}
 
