@@ -154,6 +154,34 @@ export default function AdminPage() {
     void loadPhotosAdmin()
   }, [authed, adminTab, photoEventFilter, loadPhotosAdmin])
 
+  async function deleteRsvpRow(r: Rsvp) {
+    const label = `${r.first_name} ${r.last_name}`.trim() || r.email
+    if (
+      !confirm(
+        `Permanently delete the RSVP for "${label}" (${r.email})?\n\nThis cannot be undone.`
+      )
+    ) {
+      return
+    }
+    setError('')
+    try {
+      const res = await fetch(`/api/admin/rsvps?id=${encodeURIComponent(r.id)}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${password}` },
+      })
+      const j = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        throw new Error(typeof j?.error === 'string' ? j.error : 'Delete failed.')
+      }
+      if (editingRsvp?.id === r.id) {
+        setEditingRsvp(null)
+      }
+      await refresh()
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Delete failed.')
+    }
+  }
+
   async function deletePhoto(id: string) {
     if (!confirm('Remove this photo from the wall and storage?')) return
     setPhotoError('')
@@ -401,13 +429,20 @@ export default function AdminPage() {
                   <td className="p-3 text-center">{r.staying_saturday ? '✓' : ''}</td>
                   <td className="p-3 text-center tabular-nums">{r.hotel_rooms != null && r.hotel_rooms > 0 ? r.hotel_rooms : '—'}</td>
                   <td className="p-3 text-xs text-accent/60 whitespace-nowrap">{new Date(r.updated_at).toLocaleDateString()}</td>
-                  <td className="p-3 text-right">
+                  <td className="p-3 text-right whitespace-nowrap">
                     <button
                       type="button"
                       onClick={() => setEditingRsvp(r)}
-                      className="text-sm font-semibold text-primary hover:underline"
+                      className="text-sm font-semibold text-primary hover:underline mr-3"
                     >
                       Edit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => void deleteRsvpRow(r)}
+                      className="text-sm font-semibold text-red-600 hover:underline"
+                    >
+                      Delete
                     </button>
                   </td>
                 </tr>

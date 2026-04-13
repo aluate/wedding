@@ -185,3 +185,46 @@ export async function PATCH(request: Request) {
 
   return NextResponse.json({ ok: true, rsvp: updated })
 }
+
+/**
+ * DELETE /api/admin/rsvps?id=<uuid>
+ * Authorization: Bearer <ADMIN_PASSWORD>
+ */
+export async function DELETE(request: Request) {
+  const adminPassword = process.env.ADMIN_PASSWORD || process.env.ADMIN_SECRET
+  if (!adminPassword) {
+    return errorResponse('Admin is not configured', 501, 'NOT_CONFIGURED')
+  }
+
+  const auth = request.headers.get('authorization')
+  const token = auth?.startsWith('Bearer ') ? auth.slice(7).trim() : ''
+  if (token !== adminPassword) {
+    return errorResponse('Unauthorized', 401, 'UNAUTHORIZED')
+  }
+
+  const id = new URL(request.url).searchParams.get('id')?.trim() || ''
+  if (!id) {
+    return validationErrorResponse('Missing id query parameter')
+  }
+
+  let supabase
+  try {
+    supabase = getSupabaseAdmin()
+  } catch (e) {
+    console.error('[admin/rsvps DELETE]', e)
+    return serverErrorResponse('Supabase is not configured')
+  }
+
+  const { data, error } = await supabase.from('rsvp_submissions').delete().eq('id', id).select('id')
+
+  if (error) {
+    console.error('[admin/rsvps DELETE]', error)
+    return serverErrorResponse('Could not delete RSVP')
+  }
+
+  if (!data || data.length === 0) {
+    return errorResponse('RSVP not found', 404, 'NOT_FOUND')
+  }
+
+  return NextResponse.json({ ok: true, deleted_id: id })
+}
