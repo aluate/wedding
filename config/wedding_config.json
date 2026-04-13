@@ -20,37 +20,59 @@
     "primaryVenueId": "cda-casino",
     "events": [
       {
+        "id": "rehearsal-ceremony",
+        "name": "Rehearsal Ceremony",
+        "type": "gathering",
+        "date": "2026-06-19",
+        "startTime": "16:30",
+        "endTime": "17:30",
+        "locationId": "cda-casino-ceremony",
+        "showOnPublicTimeline": true,
+        "description": "The wedding party will gather for a brief ceremony rehearsal at the venue."
+      },
+      {
         "id": "rehearsal-dinner",
         "name": "Rehearsal Dinner (Wedding Party)",
         "type": "gathering",
         "date": "2026-06-19",
-        "startTime": "18:00",
-        "endTime": "19:30",
+        "startTime": "17:30",
+        "endTime": "19:00",
         "locationId": "cda-casino-main",
         "showOnPublicTimeline": true,
-        "description": "Wedding party and immediate family rehearsal dinner the night before."
+        "description": "A seated dinner for the wedding party and their spouses. If you're not in the wedding party, we'll see you at the welcome party afterward!"
       },
       {
         "id": "welcome-party",
         "name": "Welcome Party",
         "type": "gathering",
         "date": "2026-06-19",
-        "startTime": "19:30",
-        "endTime": "23:00",
+        "startTime": "19:00",
+        "endTime": "22:00",
+        "locationId": "cda-casino-reception",
+        "showOnPublicTimeline": true,
+        "description": "All guests are welcome to join us for a casual welcome party at the reception venue. Drinks will be available for purchase — come say hello and kick off the weekend with us."
+      },
+      {
+        "id": "saturday-morning",
+        "name": "Saturday — Enjoy the Morning",
+        "type": "gathering",
+        "date": "2026-06-20",
+        "startTime": "09:00",
+        "endTime": "15:30",
         "locationId": "cda-casino-main",
         "showOnPublicTimeline": true,
-        "description": "After rehearsal, everyone is welcome to join us for a casual kickoff party. Drinks are available for purchase (not hosted)."
+        "description": "We encourage everyone to enjoy the area before the ceremony — whether you explore Coeur d'Alene and Worley, book a spa treatment, or play a round of golf. If you're reserving spa or golf, please book ahead."
       },
       {
         "id": "doors-open",
         "name": "Doors Open",
         "type": "gathering",
         "date": "2026-06-20",
-        "startTime": "14:00",
-        "endTime": "16:00",
+        "startTime": "15:30",
+        "endTime": "16:30",
         "locationId": "cda-casino-main",
         "showOnPublicTimeline": true,
-        "description": "Arrive, grab a drink, find your seat, and say hi before the ceremony."
+        "description": "Arrive, find your seat, mingle, and say hello before the ceremony begins."
       },
       {
         "id": "ceremony",
@@ -58,21 +80,21 @@
         "type": "ceremony",
         "date": "2026-06-20",
         "startTime": "16:30",
-        "endTime": "17:00",
+        "endTime": "17:15",
         "locationId": "cda-casino-ceremony",
         "showOnPublicTimeline": true,
         "description": "Join us as we get married at the Coeur d'Alene Casino."
       },
       {
         "id": "cocktail-hour",
-        "name": "Cocktail Hour",
+        "name": "Cocktail Hour & Activities",
         "type": "reception",
         "date": "2026-06-20",
-        "startTime": "17:00",
+        "startTime": "17:15",
         "endTime": "18:30",
         "locationId": "cda-casino-cocktail",
         "showOnPublicTimeline": true,
-        "description": "Cocktails, appetizers, and catching up while we finish photos."
+        "description": "While we step away for photos, enjoy appetizers and drinks — and join in on some light trivia hosted by our DJ to get the reception started."
       },
       {
         "id": "dinner",
@@ -87,14 +109,26 @@
       },
       {
         "id": "party",
-        "name": "Dancing & Party",
+        "name": "Reception & Dancing",
         "type": "party",
         "date": "2026-06-20",
         "startTime": "20:00",
-        "endTime": "23:59",
+        "endTime": "22:00",
         "locationId": "cda-casino-reception",
         "showOnPublicTimeline": true,
-        "description": "Dancing, drinks, casino runs, and bad decisions encouraged (within reason)."
+        "description": "Keep celebrating with dancing, drinks, and time together — we're planning to wrap the formal reception around 10:00 PM."
+      },
+      {
+        "id": "virtual-golf-afterparty",
+        "name": "After Party — Virtual Golf",
+        "type": "party",
+        "date": "2026-06-20",
+        "startTime": "22:00",
+        "endTime": "23:59",
+        "locationId": "cda-casino-main",
+        "showOnPublicTimeline": true,
+        "displayTimeRange": "10:00 PM – midnight",
+        "description": "Keep the night going with virtual golf bays reserved for our group until midnight. Family-friendly — we'll even tone down the gambling machines so the kids can play too."
       },
       {
         "id": "sendoff-brunch",
@@ -230,7 +264,7 @@
     "requiresHouseholdCode": false,
     "allowLookupByNameAndEmail": false,
     "allowPlusOnes": "by_invitation_only",
-    "allowChildren": "limited_family_only",
+    "allowChildren": "all_welcome",
     "deadlineDate": "2026-05-20",
     "guestFields": {
       "emailOptional": true,
@@ -320,12 +354,12 @@
     {
       "id": "kids",
       "question": "Are kids invited?",
-      "answer": "Yes, kids are welcome. Just a heads up that this is a full weekend at a casino resort, so please plan accordingly for your family."
+      "answer": "Yes — kids are welcome. This is still a casino resort, so please plan accordingly (supervision, late nights, and venue rules) in whatever way works best for your family."
     },
     {
       "id": "gifts",
       "question": "Do you have a registry?",
-      "answer": "Yes — we will have a registry. Placeholder link for now: https://example.com/registry (we will replace this with the real link soon)."
+      "answer": "We're not doing a traditional registry. If you'd like to contribute, we have a honeymoon and home fund via Venmo — see the Gifts page for the link. Your presence truly means the most to us."
     },
     {
       "id": "photos",

@@ -11,6 +11,7 @@ export default function Footer() {
         <div className="flex flex-wrap justify-center gap-4 text-xs text-accent/40">
           <Link href="/rsvp" className="hover:text-primary transition">RSVP</Link>
           <Link href="/details" className="hover:text-primary transition">Details</Link>
+          <Link href="/gifts" className="hover:text-primary transition">Gifts</Link>
           <Link href="/travel" className="hover:text-primary transition">Travel</Link>
           <Link href="/photos" className="hover:text-primary transition">Photos</Link>
         </div>

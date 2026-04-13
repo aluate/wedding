@@ -28,7 +28,9 @@ export default function Schedule() {
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
                   <h2 className="font-heading text-2xl">{event.name}</h2>
                   <p className="text-accent/70">
-                    {format12HourTime(event.startTime)} - {format12HourTime(event.endTime)}
+                    {'displayTimeRange' in event && typeof (event as { displayTimeRange?: string }).displayTimeRange === 'string'
+                      ? (event as { displayTimeRange: string }).displayTimeRange
+                      : `${format12HourTime(event.startTime)} – ${format12HourTime(event.endTime)}`}
                   </p>
                 </div>
                 <p className="text-accent/80">{event.description}</p>

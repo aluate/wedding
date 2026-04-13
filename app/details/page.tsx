@@ -21,7 +21,11 @@ export default function Details() {
               .filter((e) => e.showOnPublicTimeline)
               .map((event) => (
                 <div key={event.id} className="bg-white p-5 rounded-lg shadow-sm flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-6">
-                  <p className="text-primary font-semibold whitespace-nowrap">{format12HourTime(event.startTime)}</p>
+                  <p className="text-primary font-semibold whitespace-nowrap">
+                    {'displayTimeRange' in event && typeof (event as { displayTimeRange?: string }).displayTimeRange === 'string'
+                      ? (event as { displayTimeRange: string }).displayTimeRange
+                      : `${format12HourTime(event.startTime)} – ${format12HourTime(event.endTime)}`}
+                  </p>
                   <div>
                     <p className="font-semibold text-lg">{event.name}</p>
                     <p className="text-accent/70">{event.description}</p>
@@ -38,12 +42,16 @@ export default function Details() {
           </p>
         </section>
 
-        <section className="mb-12 grid sm:grid-cols-2 gap-4">
+        <section className="mb-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <Link href="/travel" className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition block">
             <h3 className="font-heading text-xl mb-1">Travel &amp; Lodging</h3>
             <p className="text-accent/70 text-sm">Airports, driving directions, and our hotel room block.</p>
           </Link>
-          <Link href="/menu" className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition block">
+          <Link href="/gifts" className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition block">
+            <h3 className="font-heading text-xl mb-1">Gifts</h3>
+            <p className="text-accent/70 text-sm">No traditional registry — honeymoon &amp; home fund details.</p>
+          </Link>
+          <Link href="/menu" className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition block sm:col-span-2 lg:col-span-1">
             <h3 className="font-heading text-xl mb-1">Menu</h3>
             <p className="text-accent/70 text-sm">Dinner options and dietary accommodations.</p>
           </Link>

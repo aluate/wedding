@@ -99,6 +99,9 @@ export default function Home() {
             <Link href="/schedule" className="text-accent hover:text-primary transition">
               Schedule
             </Link>
+            <Link href="/gifts" className="text-accent hover:text-primary transition">
+              Gifts
+            </Link>
             <Link href="/gallery" className="text-accent hover:text-primary transition">
               Gallery
             </Link>
