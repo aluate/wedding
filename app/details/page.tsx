@@ -1,10 +1,12 @@
 ﻿import weddingConfig from '@/config/wedding_config.json'
 import Link from 'next/link'
-import { formatAmericanDate, format12HourTime } from '@/lib/dateUtils'
+import { formatAmericanDate, format12HourTime, formatWeekdayWithDate } from '@/lib/dateUtils'
+import { groupTimelineByDate } from '@/lib/groupTimelineByDate'
 
 export default function Details() {
   const { wedding, venue, faq, site } = weddingConfig
   const supportPhoneHref = `+1${site.supportPhone.replace(/\D/g, '')}`
+  const dayGroups = groupTimelineByDate(wedding.events)
 
   return (
     <main className="min-h-screen py-12 px-4">
@@ -15,26 +17,37 @@ export default function Details() {
         </p>
 
         <section className="mb-12">
-          <h2 className="font-heading text-3xl mb-4">The Day</h2>
-          <div className="space-y-4">
-            {wedding.events
-              .filter((e) => e.showOnPublicTimeline)
-              .map((event) => (
-                <div key={event.id} className="bg-white p-5 rounded-lg shadow-sm flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-6">
-                  <p className="text-primary font-semibold whitespace-nowrap">
-                    {'displayTimeRange' in event && typeof (event as { displayTimeRange?: string }).displayTimeRange === 'string'
-                      ? (event as { displayTimeRange: string }).displayTimeRange
-                      : `${format12HourTime(event.startTime)} – ${format12HourTime(event.endTime)}`}
-                  </p>
-                  <div>
-                    <p className="font-semibold text-lg">{event.name}</p>
-                    <p className="text-accent/70">{event.description}</p>
-                  </div>
+          <h2 className="font-heading text-3xl mb-6">Weekend schedule</h2>
+          <div className="space-y-10">
+            {dayGroups.map(([date, dayEvents]) => (
+              <div key={date}>
+                <h3 className="font-heading text-2xl mb-4 text-accent border-b border-primary/30 pb-2">
+                  {formatWeekdayWithDate(date)}
+                </h3>
+                <div className="space-y-4">
+                  {dayEvents.map((event) => (
+                    <div
+                      key={event.id}
+                      className="bg-white p-5 rounded-lg shadow-sm flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-6"
+                    >
+                      <p className="text-primary font-semibold whitespace-nowrap">
+                        {'displayTimeRange' in event &&
+                        typeof (event as { displayTimeRange?: string }).displayTimeRange === 'string'
+                          ? (event as { displayTimeRange: string }).displayTimeRange
+                          : `${format12HourTime(event.startTime)} – ${format12HourTime(event.endTime)}`}
+                      </p>
+                      <div>
+                        <p className="font-semibold text-lg">{event.name}</p>
+                        <p className="text-accent/70">{event.description}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+            ))}
           </div>
-          <p className="mt-4 text-sm text-accent/60">
-            See the full schedule on the{' '}
+          <p className="mt-6 text-sm text-accent/60">
+            Prefer a single scroll? See the{' '}
             <Link href="/schedule" className="text-primary hover:underline font-semibold">
               Schedule page
             </Link>

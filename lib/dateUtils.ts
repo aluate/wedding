@@ -36,6 +36,23 @@ export function formatAmericanDateWithMonth(dateString: string): string {
 }
 
 /**
+ * e.g. "Friday, June 19, 2026" — for schedule section headings
+ */
+export function formatWeekdayWithDate(dateString: string): string {
+  const date = new Date(dateString + 'T00:00:00')
+  const weekdayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  const monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ]
+  const weekday = weekdayNames[date.getDay()]
+  const month = monthNames[date.getMonth()]
+  const day = date.getDate()
+  const year = date.getFullYear()
+  return `${weekday}, ${month} ${day}, ${year}`
+}
+
+/**
  * Format time from 24-hour format (HH:MM) to 12-hour format (H:MM AM/PM)
  * @param timeString - 24-hour time string (HH:MM)
  * @returns Formatted time string (H:MM AM/PM)
